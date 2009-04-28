@@ -141,7 +141,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				shadow.moveBy(3,3);
 				painter.setForegroundColor(gRGB(0,0,0));
 				painter.renderText(shadow, element.m_text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
-				painter.setForegroundColor(element.m_color);
+				painter.setForegroundColor(gRGB(255,255,255));
 				painter.renderText(area, element.m_text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 			}
 		}
@@ -180,7 +180,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				shadow.moveBy(3,3);
 				painter.setForegroundColor(gRGB(0,0,0));
 				painter.renderText(shadow, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
-				painter.setForegroundColor(element.m_color);
+				painter.setForegroundColor(gRGB(255,255,255));
 				painter.renderText(area, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 			}
 		}
