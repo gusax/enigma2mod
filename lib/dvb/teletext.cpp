@@ -655,7 +655,7 @@ void eDVBTeletextParser::connectNewPage(const Slot1<void, const eDVBTeletextSubt
 
 void eDVBTeletextParser::addSubtitleString(int color, std::string string)
 {
-//	eDebug("(%d)add subtitle string: %s, col %d", m_Y, string.c_str(), color);
+	eDebug("(%d)add subtitle string: %s, col %d", m_Y, string.c_str(), color);
 	int force_cell = 0;
 
 	if (string.substr(0, 2) == "- ")
@@ -664,21 +664,22 @@ void eDVBTeletextParser::addSubtitleString(int color, std::string string)
 		force_cell = 1;
 	}
 
-//	eDebug("color %d, m_subtitle_color %d", color, m_subtitle_color);
+	//eDebug("color %d, m_subtitle_color %d", color, m_subtitle_color);
 	gRGB rgbcol((color & 1) ? 255 : 128, (color & 2) ? 255 : 128, (color & 4) ? 255 : 128);
-	if ((color != m_subtitle_color || force_cell) && !m_subtitle_text.empty() && ((color == -2) || !string.empty()))
+	if ((color != m_subtitle_color || force_cell) && (!m_subtitle_line1.empty() || !string.empty()) && (color == -2))
 	{
-//		eDebug("add text |%s|: %d != %d || %d", m_subtitle_text.c_str(), color, m_subtitle_color, force_cell);
-		m_subtitle_page.m_elements.push_back(eDVBTeletextSubtitlePageElement(rgbcol, m_subtitle_text));
-		m_subtitle_text = "";
-	} else if (!m_subtitle_text.empty() && m_subtitle_text[m_subtitle_text.size()-1] != ' ')
-		m_subtitle_text += " ";
+		//eDebug("add text |%s|: %d != %d || %d", m_subtitle_line1.c_str(), color, m_subtitle_color, force_cell);
+		eDebug("Subtitle line 1: %s", m_subtitle_line1.c_str());
+		eDebug("Subtitle line 2: %s", string.c_str());
+		m_subtitle_page.m_elements.push_back(eDVBTeletextSubtitlePageElement(rgbcol, m_subtitle_line1, string));
+		m_subtitle_line1 = "";
+	}
 	
 	if (!string.empty())
 	{
-//		eDebug("set %d as new color", color);
+		//eDebug("set %d as new color", color);
 		m_subtitle_color = color;
-		m_subtitle_text += string;
+		m_subtitle_line1 = string;
 	}
 }
 
@@ -688,7 +689,7 @@ void eDVBTeletextParser::sendSubtitlePage()
 	bool empty=true;
 	if (empty)
 		for (unsigned int i = 0; i < m_subtitle_page.m_elements.size(); ++i)
-			if (!m_subtitle_page.m_elements[i].m_text.empty())
+			if (!m_subtitle_page.m_elements[i].m_line1.empty())
 				empty=false;
 	if (!empty)
 		m_new_subtitle_page(m_subtitle_page);

@@ -131,7 +131,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 34);
+			ePtr<gFont> font = new gFont("Regular", 32);
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -139,16 +139,28 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				eRect &area = element.m_area;
 				eRect shadow = area;
 				shadow.moveBy(3,3);
-				painter.setForegroundColor(gRGB(0,0,0));
-				painter.renderText(shadow, element.m_text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
-				painter.setForegroundColor(gRGB(255,255,255));
-				painter.renderText(area, element.m_text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+				if (!element.m_line1.empty())
+				{
+					painter.setForegroundColor(gRGB(0,0,0));
+					painter.renderText(shadow, element.m_line1, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+					painter.setForegroundColor(gRGB(255,255,255));
+					painter.renderText(area, element.m_line1, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+					shadow.moveBy(0, shadow.bottom());
+					area.moveBy(0, area.bottom());
+				}
+				if (!element.m_line2.empty())
+				{
+					painter.setForegroundColor(gRGB(0,0,0));
+					painter.renderText(shadow, element.m_line2, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+					painter.setForegroundColor(gRGB(255,255,255));
+					painter.renderText(area, element.m_line2, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+				}
 			}
 		}
 		else if (m_pango_page_ok)
 		{
 			int elements = m_pango_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 34);
+			ePtr<gFont> font = new gFont("Regular", 32);
 			for (int i=0; i<elements; ++i)
 			{
 				ePangoSubtitlePageElement &element = m_pango_page.m_elements[i];
@@ -160,11 +172,11 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					{
 					case 'i':
 						eDebug("found italic");
-						font = new gFont("LCD", 36);
+						font = new gFont("LCD", 34);
 						break;
 					case 'b':
 						eDebug("found bold");
-						font = new gFont("Replacement", 36);
+						font = new gFont("Replacement", 34);
 						break;
 					default:
 						break;
@@ -179,9 +191,9 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				eRect shadow = area;
 				shadow.moveBy(3,3);
 				painter.setForegroundColor(gRGB(0,0,0));
-				painter.renderText(shadow, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+				painter.renderText(shadow, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
 				painter.setForegroundColor(gRGB(255,255,255));
-				painter.renderText(area, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+				painter.renderText(area, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
 			}
 		}
 		else if (m_dvb_page_ok)
