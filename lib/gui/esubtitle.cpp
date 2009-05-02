@@ -131,7 +131,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 38);
+			ePtr<gFont> font = new gFont("Regular", 34);
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -148,7 +148,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_pango_page_ok)
 		{
 			int elements = m_pango_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 38);
+			ePtr<gFont> font = new gFont("Regular", 34);
 			for (int i=0; i<elements; ++i)
 			{
 				ePangoSubtitlePageElement &element = m_pango_page.m_elements[i];
@@ -160,11 +160,11 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					{
 					case 'i':
 						eDebug("found italic");
-						font = new gFont("LCD", 40);
+						font = new gFont("LCD", 36);
 						break;
 					case 'b':
 						eDebug("found bold");
-						font = new gFont("Replacement", 40);
+						font = new gFont("Replacement", 36);
 						break;
 					default:
 						break;
