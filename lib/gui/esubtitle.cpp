@@ -142,6 +142,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
+			bool didMove = false;
 			ePtr<gFont> font = new gFont("Regular", fontSize); 
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
@@ -159,6 +160,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					painter.renderText(area, element.m_line1, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 					shadow.moveBy(0, lineHeight); 
 					area.moveBy(0, lineHeight);
+					didMove = true;
 				}
 				if (!element.m_line2.empty())
 				{
@@ -167,6 +169,13 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					painter.renderText(shadow, element.m_line2, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 					painter.setForegroundColor(gRGB(255,255,255));
 					painter.renderText(area, element.m_line2, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+				}
+				if (didMove)
+				{
+					// Must move area and shadow back, otherwise text will jump one line down if showing and hiding infobar before the next subtitle page arrives
+					shadow.moveBy(0, -1*lineHeight); 
+					area.moveBy(0, -1*lineHeight);
+					didMove = false;
 				}
 			}
 		}
