@@ -44,6 +44,7 @@ protected:
 
 private:
 	int m_page_ok;
+	int fontSize;
 	eDVBTeletextSubtitlePage m_page;
 
 	int m_dvb_page_ok;

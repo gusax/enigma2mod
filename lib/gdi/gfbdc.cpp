@@ -227,6 +227,16 @@ void gFBDC::setResolution(int xres, int yres)
 	m_pixmap = new gPixmap(&surface);
 }
 
+int gFBDC::getHorizontalResolution()
+{
+	return m_xres;
+}
+
+int gFBDC::getVerticalResolution()
+{
+	return m_yres;
+}
+
 void gFBDC::saveSettings()
 {
 }

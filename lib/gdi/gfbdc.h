@@ -27,6 +27,8 @@ class gFBDC: public gDC
 #endif
 public:
 	void setResolution(int xres, int yres);
+	int getVerticalResolution();
+	int getHorizontalResolution();
 #ifndef SWIG
 	void reloadSettings();
 	void setAlpha(int alpha);
