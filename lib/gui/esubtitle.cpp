@@ -26,7 +26,8 @@ eSubtitleWidget::eSubtitleWidget(eWidget *parent)
 	gFBDC::getInstance(my_dc);
 #endif	
 	fontSize = std::ceil(28 * my_dc->getVerticalResolution() / 576); // PAL (576 lines) is default. For HD (more vertical resolution) we will increase font size, for NTSC we will decrease.
-	eDebug("Subtitle font size is %d", fontSize);
+	lineHeight = std::ceil(fontSize * 1.3);
+	//eDebug("Subtitle font size is %d", fontSize);
 	CONNECT(m_hide_subtitles_timer->timeout, eSubtitleWidget::clearPage);
 }
 
@@ -63,13 +64,13 @@ void eSubtitleWidget::setPage(const eDVBTeletextSubtitlePage &p)
 
 void eSubtitleWidget::setPage(const eDVBSubtitlePage &p)
 {
-	eDebug("setPage");
+	//eDebug("setPage");
 	m_dvb_page = p;
 	invalidate(m_visible_region);  // invalidate old visible regions
 	m_visible_region.rects.clear();
 	for (std::list<eDVBSubtitleRegion>::iterator it(m_dvb_page.m_regions.begin()); it != m_dvb_page.m_regions.end(); ++it)
 	{
-		eDebug("add %d %d %d %d", it->m_position.x(), it->m_position.y(), it->m_pixmap->size().width(), it->m_pixmap->size().height());
+		//eDebug("add %d %d %d %d", it->m_position.x(), it->m_position.y(), it->m_pixmap->size().width(), it->m_pixmap->size().height());
 		m_visible_region.rects.push_back(eRect(it->m_position, it->m_pixmap->size()));
 	}
 	m_dvb_page_ok = 1;
@@ -110,7 +111,7 @@ void eSubtitleWidget::setPage(const ePangoSubtitlePage &p)
 
 void eSubtitleWidget::clearPage()
 {
-	eDebug("subtitle timeout... hide");
+	//eDebug("subtitle timeout... hide");
 	m_page_ok = 0;
 	m_dvb_page_ok = 0;
 	m_pango_page_ok = 0;
@@ -141,7 +142,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", fontSize); // TODO: Make font variant and font size a setting somewhere? Or perhaps let the skin decide?
+			ePtr<gFont> font = new gFont("Regular", fontSize); 
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -153,19 +154,19 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				{
 					//eDebug("Rendering subtitle line 1 %s at yPos %d", element.m_line1.c_str(), area.top());
 					painter.setForegroundColor(gRGB(0,0,0));
-					painter.renderText(shadow, element.m_line1, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+					painter.renderText(shadow, element.m_line1, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 					painter.setForegroundColor(gRGB(255,255,255)); // TODO: make subtitle color a setting somewhere?
-					painter.renderText(area, element.m_line1, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
-					shadow.moveBy(0, 44); // TODO: Use font size * 1.2 or something as the line height instead of this hard-coded number.
-					area.moveBy(0, 44);
+					painter.renderText(area, element.m_line1, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+					shadow.moveBy(0, lineHeight); 
+					area.moveBy(0, lineHeight);
 				}
 				if (!element.m_line2.empty())
 				{
 					//eDebug("Rendering subtitle line 2 %s at yPos %d", element.m_line2.c_str(), area.top());
 					painter.setForegroundColor(gRGB(0,0,0));
-					painter.renderText(shadow, element.m_line2, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+					painter.renderText(shadow, element.m_line2, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 					painter.setForegroundColor(gRGB(255,255,255));
-					painter.renderText(area, element.m_line2, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+					painter.renderText(area, element.m_line2, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 				}
 			}
 		}
@@ -203,9 +204,9 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				eRect shadow = area;
 				shadow.moveBy(3,3);
 				painter.setForegroundColor(gRGB(0,0,0));
-				painter.renderText(shadow, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+				painter.renderText(shadow, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 				painter.setForegroundColor(gRGB(255,255,255));
-				painter.renderText(area, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
+				painter.renderText(area, text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 			}
 		}
 		else if (m_dvb_page_ok)
