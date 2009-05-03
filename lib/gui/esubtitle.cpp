@@ -131,7 +131,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 32);
+			ePtr<gFont> font = new gFont("Regular", 34); // TODO: Make font variant and font size a setting somewhere? Or perhaps let the skin decide?
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -141,15 +141,17 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				shadow.moveBy(3,3);
 				if (!element.m_line1.empty())
 				{
+					//eDebug("Rendering subtitle line 1 %s at yPos %d", element.m_line1.c_str(), area.top());
 					painter.setForegroundColor(gRGB(0,0,0));
 					painter.renderText(shadow, element.m_line1, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
-					painter.setForegroundColor(gRGB(255,255,255));
+					painter.setForegroundColor(gRGB(255,255,255)); // TODO: make subtitle color a setting somewhere?
 					painter.renderText(area, element.m_line1, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
-					shadow.moveBy(0, shadow.bottom());
-					area.moveBy(0, area.bottom());
+					shadow.moveBy(0, 44); // TODO: Use font size * 1.2 or something as the line height instead of this hard-coded number.
+					area.moveBy(0, 44);
 				}
 				if (!element.m_line2.empty())
 				{
+					//eDebug("Rendering subtitle line 2 %s at yPos %d", element.m_line2.c_str(), area.top());
 					painter.setForegroundColor(gRGB(0,0,0));
 					painter.renderText(shadow, element.m_line2, gPainter::RT_VALIGN_TOP|gPainter::RT_HALIGN_CENTER);
 					painter.setForegroundColor(gRGB(255,255,255));
@@ -160,7 +162,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_pango_page_ok)
 		{
 			int elements = m_pango_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 32);
+			ePtr<gFont> font = new gFont("Regular", 34);
 			for (int i=0; i<elements; ++i)
 			{
 				ePangoSubtitlePageElement &element = m_pango_page.m_elements[i];
@@ -172,11 +174,11 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					{
 					case 'i':
 						eDebug("found italic");
-						font = new gFont("LCD", 34);
+						font = new gFont("LCD", 36);
 						break;
 					case 'b':
 						eDebug("found bold");
-						font = new gFont("Replacement", 34);
+						font = new gFont("Replacement", 36);
 						break;
 					default:
 						break;
