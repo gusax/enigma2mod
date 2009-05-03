@@ -1,7 +1,8 @@
 #include <lib/gui/esubtitle.h>
 #include <lib/gdi/grc.h>
 #include <lib/base/estring.h>
-
+#include <cmath>
+#include <lib/gdi/gfbdc.h>
 	/*
 		ok, here's much room for improvements.
 	
@@ -17,6 +18,16 @@ eSubtitleWidget::eSubtitleWidget(eWidget *parent)
 	m_page_ok = 0;
 	m_dvb_page_ok = 0;
 	m_pango_page_ok = 0;
+#ifdef WITH_SDL
+	ePtr<gSDLDC> my_dc;
+	gSDLDC::getInstance(my_dc);
+#else
+	ePtr<gFBDC> my_dc;
+	gFBDC::getInstance(my_dc);
+#endif	
+	fontSize = std::ceil(28 * my_dc->getVerticalResolution() / 576); // PAL (576 lines) is default. For HD (more vertical resolution) we will increase font size, for NTSC we will decrease.
+	delete my_dc;
+	eDebug("Subtitle font size is %d", fontSize);
 	CONNECT(m_hide_subtitles_timer->timeout, eSubtitleWidget::clearPage);
 }
 
@@ -131,7 +142,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 34); // TODO: Make font variant and font size a setting somewhere? Or perhaps let the skin decide?
+			ePtr<gFont> font = new gFont("Regular", fontSize); // TODO: Make font variant and font size a setting somewhere? Or perhaps let the skin decide?
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -162,7 +173,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		else if (m_pango_page_ok)
 		{
 			int elements = m_pango_page.m_elements.size();
-			ePtr<gFont> font = new gFont("Regular", 34);
+			ePtr<gFont> font = new gFont("Regular", fontSize);
 			for (int i=0; i<elements; ++i)
 			{
 				ePangoSubtitlePageElement &element = m_pango_page.m_elements[i];
@@ -174,11 +185,11 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					{
 					case 'i':
 						eDebug("found italic");
-						font = new gFont("LCD", 36);
+						font = new gFont("LCD", fontSize + 2);
 						break;
 					case 'b':
 						eDebug("found bold");
-						font = new gFont("Replacement", 36);
+						font = new gFont("Replacement", fontSize + 2);
 						break;
 					default:
 						break;
