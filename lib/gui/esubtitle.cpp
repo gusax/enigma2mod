@@ -26,7 +26,6 @@ eSubtitleWidget::eSubtitleWidget(eWidget *parent)
 	gFBDC::getInstance(my_dc);
 #endif	
 	fontSize = std::ceil(28 * my_dc->getVerticalResolution() / 576); // PAL (576 lines) is default. For HD (more vertical resolution) we will increase font size, for NTSC we will decrease.
-	delete my_dc;
 	eDebug("Subtitle font size is %d", fontSize);
 	CONNECT(m_hide_subtitles_timer->timeout, eSubtitleWidget::clearPage);
 }
