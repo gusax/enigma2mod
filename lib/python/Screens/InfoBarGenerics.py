@@ -190,17 +190,30 @@ class InfoBarNumberZap:
 				"9": self.keyNumberGlobal,
 				"0": self.keyNumberGlobal,
 			})
+		self.numString = None
+		self.numTimer = eTimer()
+		self.numTimer.callback.append(self.clearNumString)
+
+	def clearNumString(self):
+		self.numString = None
+		self.numTimer.stop()
 
 	def keyNumberGlobal(self, number):
 #		print "You pressed number " + str(number)
-		if number == 0:
+		if (number == 0 and self.numString is None):
 			if isinstance(self, InfoBarPiP) and self.pipHandles0Action():
 				self.pipDoHandle0Action()
 			else:
 				self.servicelist.recallPrevService()
 		else:
 			if self.has_key("TimeshiftActions") and not self.timeshift_enabled:
-				self.session.openWithCallback(self.numberEntered, NumberZap, number)
+				if (self.numString is None):
+					self.numString = str(number)
+				else:
+					self.numString = self.numString + str(number);
+				self.numberEntered(int(self.numString)) # Zap immedeately, without waiting for the timeout
+				self.numTimer.start(1000, True)
+				#self.session.openWithCallback(self.numberEntered, NumberZap, self)
 
 	def numberEntered(self, retval):
 #		print self.servicelist
