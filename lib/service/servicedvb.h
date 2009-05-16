@@ -183,7 +183,7 @@ public:
 		// iStreamableService
 	RESULT stream(ePtr<iStreamableService> &ptr);
 	PyObject *getStreamingData();
-	
+
 	ePoint getDvbSubtitlesMover();
 private:
 	friend class eServiceFactoryDVB;
