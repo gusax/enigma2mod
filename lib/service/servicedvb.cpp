@@ -20,6 +20,7 @@
 
 		/* for subtitles */
 #include <lib/gui/esubtitle.h>
+#include <lib/gdi/epoint.h>
 
 #include <sys/vfs.h>
 #include <sys/stat.h>
@@ -2635,7 +2636,8 @@ RESULT eDVBServicePlay::enableSubtitles(eWidget *parent, ePyObject tuple)
 		ancillary_page_id = PyInt_AsLong(entry);
 
 		m_subtitle_widget = new eSubtitleWidget(parent);
-		m_subtitle_widget->resize(parent->size()); /* full size */
+		//m_subtitle_widget->resize(parent->size()); /* full size */
+		m_subtitle_widget->move(ePoint(280, 72));
 		m_subtitle_parser->start(pid, composition_page_id, ancillary_page_id);
 		if (m_dvb_service)
 			m_dvb_service->setCacheEntry(eDVBService::cSUBTITLE, ((pid&0xFFFF)<<16)|((composition_page_id&0xFF)<<8)|(ancillary_page_id&0xFF));
