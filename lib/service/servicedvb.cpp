@@ -21,6 +21,11 @@
 		/* for subtitles */
 #include <lib/gui/esubtitle.h>
 #include <lib/gdi/epoint.h>
+#ifdef WITH_SDL
+#include <lib/gdi/sdl.h>
+#endif
+#include <lib/gdi/gfbdc.h>
+
 
 #include <sys/vfs.h>
 #include <sys/stat.h>
@@ -1969,6 +1974,35 @@ PyObject *eDVBServiceBase::getAll(bool original)
 	return ret;
 }
 
+ePoint eDVBServicePlay::getDvbSubtitlesMover()
+{
+	//if (!dvbSubtitlesMover)
+	//{
+#ifdef WITH_SDL
+		ePtr<gSDLDC> my_dc;
+		gSDLDC::getInstance(my_dc);
+#else
+		ePtr<gFBDC> my_dc;
+		gFBDC::getInstance(my_dc);
+#endif
+		int vRes = my_dc->getVerticalResolution();
+		int hRes = my_dc->getHorizontalResolution();
+		int marginLeft = (int)(hRes / 2 - 720 / 2);
+		if (marginLeft < 0) // Just to be sure...
+		{
+			marginLeft = 0;
+		}
+		int marginTop = 0;
+		if (vRes > 576)
+		{
+			marginTop = (int)(vRes/2 - 576 / 2);
+		}
+		eDebug("servicedvb.cpp: vRes = %i, hRes = %i, marginLeft = %i, marginTop = %i", vRes, hRes, marginLeft, marginTop);
+		dvbSubtitlesMover = ePoint(marginLeft, marginTop);
+	//}
+	return dvbSubtitlesMover;
+}
+
 int eDVBServicePlay::getNumberOfSubservices()
 {
 	ePtr<eServiceEvent> evt;
@@ -2636,8 +2670,8 @@ RESULT eDVBServicePlay::enableSubtitles(eWidget *parent, ePyObject tuple)
 		ancillary_page_id = PyInt_AsLong(entry);
 
 		m_subtitle_widget = new eSubtitleWidget(parent);
-		//m_subtitle_widget->resize(parent->size()); /* full size */
-		m_subtitle_widget->move(ePoint(280, 72));
+		m_subtitle_widget->resize(parent->size()); /* full size */
+		m_subtitle_widget->move(getDvbSubtitlesMover()); // Center 720x576 subtitles in HD skins. TODO: Scale DVB subtitles.
 		m_subtitle_parser->start(pid, composition_page_id, ancillary_page_id);
 		if (m_dvb_service)
 			m_dvb_service->setCacheEntry(eDVBService::cSUBTITLE, ((pid&0xFFFF)<<16)|((composition_page_id&0xFF)<<8)|(ancillary_page_id&0xFF));

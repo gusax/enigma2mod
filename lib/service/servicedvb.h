@@ -10,6 +10,7 @@
 #include <lib/dvb/teletext.h>
 #include <lib/dvb/radiotext.h>
 #include <lib/base/filepush.h>
+#include <lib/gdi/epoint.h>
 
 class eStaticServiceDVBInformation;
 class eStaticServiceDVBBouquetInformation;
@@ -182,6 +183,8 @@ public:
 		// iStreamableService
 	RESULT stream(ePtr<iStreamableService> &ptr);
 	PyObject *getStreamingData();
+	
+	ePoint getDvbSubtitlesMover();
 private:
 	friend class eServiceFactoryDVB;
 	eServiceReference m_reference;
@@ -272,6 +275,7 @@ private:
 	void newDVBSubtitlePage(const eDVBSubtitlePage &p);
 	ePtr<eConnection> m_new_dvb_subtitle_page_connection;
 	std::list<eDVBSubtitlePage> m_dvb_subtitle_pages;
+	ePoint dvbSubtitlesMover;
 
 	ePtr<eTimer> m_subtitle_sync_timer;
 	void checkSubtitleTiming();

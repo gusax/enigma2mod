@@ -2,6 +2,9 @@
 #include <lib/gdi/grc.h>
 #include <lib/base/estring.h>
 #include <cmath>
+#ifdef WITH_SDL
+#include <lib/gdi/sdl.h>
+#endif
 #include <lib/gdi/gfbdc.h>
 	/*
 		ok, here's much room for improvements.
@@ -24,7 +27,7 @@ eSubtitleWidget::eSubtitleWidget(eWidget *parent)
 #else
 	ePtr<gFBDC> my_dc;
 	gFBDC::getInstance(my_dc);
-#endif	
+#endif
 	fontSize = std::ceil(28 * my_dc->getVerticalResolution() / 576); // PAL (576 lines) is default. For HD (more vertical resolution) we will increase font size, for NTSC we will decrease.
 	lineHeight = std::ceil(fontSize * 1.3);
 	//eDebug("Subtitle font size is %d", fontSize);
@@ -143,7 +146,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		{
 			int elements = m_page.m_elements.size();
 			bool didMove = false;
-			ePtr<gFont> font = new gFont("Regular", fontSize); 
+			ePtr<gFont> font = new gFont("Regular", fontSize);
 			painter.setFont(font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -158,7 +161,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 					painter.renderText(shadow, element.m_line1, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
 					painter.setForegroundColor(gRGB(255,255,255)); // TODO: make subtitle color a setting somewhere?
 					painter.renderText(area, element.m_line1, gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
-					shadow.moveBy(0, lineHeight); 
+					shadow.moveBy(0, lineHeight);
 					area.moveBy(0, lineHeight);
 					didMove = true;
 				}
@@ -173,7 +176,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				if (didMove)
 				{
 					// Must move area and shadow back, otherwise text will jump one line down if showing and hiding infobar before the next subtitle page arrives
-					shadow.moveBy(0, -1*lineHeight); 
+					shadow.moveBy(0, -1*lineHeight);
 					area.moveBy(0, -1*lineHeight);
 					didMove = false;
 				}
