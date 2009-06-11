@@ -666,19 +666,26 @@ void eDVBTeletextParser::addSubtitleString(int color, std::string string)
 
 //	eDebug("color %d, m_subtitle_color %d", color, m_subtitle_color);
 	gRGB rgbcol((color & 1) ? 255 : 128, (color & 2) ? 255 : 128, (color & 4) ? 255 : 128);
-	if ((color != m_subtitle_color || force_cell) && !m_subtitle_text.empty() && ((color == -2) || !string.empty()))
+	if ((color != m_subtitle_color || force_cell) && (!m_subtitle_line1.empty() || !m_subtitle_line2.empty()) && (color == -2))
 	{
 //		eDebug("add text |%s|: %d != %d || %d", m_subtitle_text.c_str(), color, m_subtitle_color, force_cell);
-		m_subtitle_page.m_elements.push_back(eDVBTeletextSubtitlePageElement(rgbcol, m_subtitle_text));
-		m_subtitle_text = "";
-	} else if (!m_subtitle_text.empty() && m_subtitle_text[m_subtitle_text.size()-1] != ' ')
-		m_subtitle_text += " ";
+		m_subtitle_page.m_elements.push_back(eDVBTeletextSubtitlePageElement(rgbcol, m_subtitle_line1, m_subtitle_line2));
+		m_subtitle_line1 = "";
+		m_subtitle_line2 = "";
+	}
 	
 	if (!string.empty())
 	{
 //		eDebug("set %d as new color", color);
 		m_subtitle_color = color;
-		m_subtitle_text += string;
+		if (m_subtitle_line1.empty())
+		{
+			m_subtitle_line1 = string;
+		}
+		else
+		{
+			m_subtitle_line2 = string;
+		}
 	}
 }
 
@@ -687,7 +694,7 @@ void eDVBTeletextParser::sendSubtitlePage()
 //	eDebug("subtitle page:");
 	bool send=m_C & (1<<4);
 	for (unsigned int i = 0; i < m_subtitle_page.m_elements.size(); ++i)
-		if (!m_subtitle_page.m_elements[i].m_text.empty())
+		if (!m_subtitle_page.m_elements[i].m_line1.empty() || !m_subtitle_page.m_elements[i].m_line2.empty())
 			send=true;
 	if (send)
 		m_new_subtitle_page(m_subtitle_page);
