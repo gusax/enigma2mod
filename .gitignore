@@ -31,3 +31,5 @@ po/
 main/enigma2
 version.h
 *.d
+.DS_Store
+
