@@ -10,6 +10,7 @@ Makefile
 *.so.0.0
 *.cxx
 .deps
+.svn
 COPYING
 INSTALL
 aclocal.m4
@@ -31,6 +32,7 @@ po/
 main/enigma2
 version.h
 *.d
+<<<<<<< HEAD
 *.la
 *.lo
 .libs/
@@ -39,3 +41,7 @@ config.h
 libtool
 ltmain.sh
 stamp-h1
+=======
+.DS_Store
+
+>>>>>>> b2d5876... Added .gitignore
