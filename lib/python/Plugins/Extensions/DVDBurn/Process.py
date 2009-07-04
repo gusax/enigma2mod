@@ -109,10 +109,11 @@ class DemuxTask(Task):
 
 	def processOutputLine(self, line):
 		line = line[:-1]
+		#print "[DemuxTask]", line
 		MSG_NEW_FILE = "---> new File: "
 		MSG_PROGRESS = "[PROGRESS] "
-		MSG_NEW_MP2 = "--> MPEG Audio (0x"
-		MSG_NEW_AC3 = "--> AC-3/DTS Audio on PID "
+		MSG_NEW_MP2 = "++> Mpg Audio: PID 0x"
+		MSG_NEW_AC3 = "++> AC3/DTS Audio: PID 0x"
 
 		if line.startswith(MSG_NEW_FILE):
 			file = line[len(MSG_NEW_FILE):]
@@ -123,7 +124,10 @@ class DemuxTask(Task):
 			progress = line[len(MSG_PROGRESS):]
 			self.haveProgress(progress)
 		elif line.startswith(MSG_NEW_MP2) or line.startswith(MSG_NEW_AC3):
-			self.currentPID = str(int(line.rstrip()[-6:].rsplit('0x',1)[-1],16))
+			try:
+				self.currentPID = str(int(line.split(': PID 0x',1)[1].split(' ',1)[0],16))
+			except ValueError:
+				print "[DemuxTask] ERROR: couldn't detect Audio PID (projectx too old?)"
 
 	def haveNewFile(self, file):
 		print "[DemuxTask] produced file:", file, self.currentPID
@@ -166,7 +170,10 @@ class DemuxTask(Task):
 		if failed:
 			import os
 			for file in self.generated_files:
-				os.remove(file)
+				try:
+					os.remove(file)
+				except OSError:
+					pass
 
 class MplexTaskPostcondition(Condition):
 	def check(self, task):
@@ -392,8 +399,12 @@ class PreviewTask(Task):
 		if self.job.menupreview:
 			self.previewProject()
 		else:
-			from Tools import Notifications
-			Notifications.AddNotificationWithCallback(self.previewCB, MessageBox, _("Do you want to preview this DVD before burning?"), timeout = 60, default = False)
+			import Screens.Standby
+			if Screens.Standby.inStandby:
+				self.previewCB(False)
+			else:
+				from Tools import Notifications
+				Notifications.AddNotificationWithCallback(self.previewCB, MessageBox, _("Do you want to preview this DVD before burning?"), timeout = 60, default = False)
 
 	def abort(self):
 		self.finish(aborted = True)

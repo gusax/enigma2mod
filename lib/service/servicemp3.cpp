@@ -48,6 +48,7 @@ eServiceFactoryMP3::eServiceFactoryMP3()
 		extensions.push_back("mp4");
 		extensions.push_back("mov");
 		extensions.push_back("m4a");
+		extensions.push_back("m2ts");
 		sc->addServiceFactory(eServiceFactoryMP3::id, this, extensions);
 	}
 
@@ -1135,9 +1136,9 @@ void eServiceMP3::gstBusCall(GstBus *bus, GstMessage *msg)
 				if (!caps)
 					continue;
 				GstStructure* str = gst_caps_get_structure(caps, 0);
-gchar *g_type;
-g_type = gst_structure_get_name(str);
-eDebug("AUDIO STRUCT=%s", g_type);
+				gchar *g_type;
+				g_type = gst_structure_get_name(str);
+				eDebug("AUDIO STRUCT=%s", g_type);
 				audio.type = gstCheckAudioPad(str);
 				g_codec = g_strdup(g_type);
 				g_lang = g_strdup_printf ("und");
