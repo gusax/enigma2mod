@@ -14,10 +14,11 @@ struct eDVBTeletextSubtitlePageElement
 	std::string m_line1;
 	std::string m_line2;
 	eRect m_area;
+
 	int m_source_line;
 
-	eDVBTeletextSubtitlePageElement(const gRGB &color, const std::string &text, int source_line)
-		: m_color(color), m_text(text), m_source_line(source_line)
+	eDVBTeletextSubtitlePageElement(const gRGB &color, const std::string &line1, const std::string &line2, int source_line)
+		: m_color(color), m_line1(line1), m_line2(line2), m_source_line(source_line)
 	{
 	}
 };
