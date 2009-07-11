@@ -678,7 +678,7 @@ void eDVBTeletextParser::addSubtitleString(int color, std::string string, int so
 		m_subtitle_line1 = "";
 		m_subtitle_line2 = "";
 	}
-	
+
 	if (m_current_source_line == -1)
 		m_current_source_line = source_line;
 
@@ -687,7 +687,7 @@ void eDVBTeletextParser::addSubtitleString(int color, std::string string, int so
 //		eDebug("set %d as new color", color);
 		if (color >= 0)
 			m_subtitle_color = color;
-		
+
 		if (m_subtitle_line1.empty())
 		{
 			m_subtitle_line1 = string;
