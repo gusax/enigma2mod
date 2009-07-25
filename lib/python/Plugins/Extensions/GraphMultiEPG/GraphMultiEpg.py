@@ -191,7 +191,7 @@ class EPGList(HTMLComponent, GUIComponent):
 		instance.selectionChanged.get().append(self.serviceChanged)
 		instance.setContent(self.l)
 		self.l.setFont(0, gFont("Regular", 20))
-		self.l.setFont(1, gFont("Regular", 14))
+		self.l.setFont(1, gFont("Regular", 18))
 		self.l.setSelectionClip(eRect(0,0,0,0), False)
 
 	def preWidgetRemove(self, instance):
@@ -436,10 +436,9 @@ class GraphMultiEPG(Screen):
 		self["actions"] = ActionMap(["EPGSelectActions", "OkCancelActions"],
 			{
 				"cancel": self.closeScreen,
-				"ok": self.eventSelected,
+				"ok": self.zapTo,
 				"timerAdd": self.timerAdd,
 				"info": self.infoKeyPressed,
-				"red": self.zapTo,
 				"input_date_time": self.enterDateTime,
 				"nextBouquet": self.nextBouquet,
 				"prevBouquet": self.prevBouquet,
@@ -566,6 +565,7 @@ class GraphMultiEPG(Screen):
 			ref = self["list"].getCurrent()[1]
 			if ref:
 				self.zapFunc(ref.ref)
+				self.closeScreen()
 
 	def eventSelected(self):
 		self.infoKeyPressed()
@@ -638,7 +638,7 @@ class GraphMultiEPG(Screen):
 				self.key_red_choice = self.EMPTY
 			return
 		elif self.key_red_choice != self.ZAP:
-				self["key_red"].setText("Zap")
+				self["key_red"].setText("")
 				self.key_red_choice = self.ZAP
 			
 		if not event:
