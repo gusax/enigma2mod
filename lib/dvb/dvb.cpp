@@ -438,7 +438,9 @@ alloc_fe_by_id_not_possible:
 	return err;
 }
 
-RESULT eDVBResourceManager::allocateDemux(eDVBRegisteredFrontend *fe, ePtr<eDVBAllocatedDemux> &demux, int cap)
+#define capHoldDecodeReference 64
+
+RESULT eDVBResourceManager::allocateDemux(eDVBRegisteredFrontend *fe, ePtr<eDVBAllocatedDemux> &demux, int &cap)
 {
 		/* find first unused demux which is on same adapter as frontend (or any, if PVR)
 		   never use the first one unless we need a decoding demux. */
@@ -455,6 +457,7 @@ RESULT eDVBResourceManager::allocateDemux(eDVBRegisteredFrontend *fe, ePtr<eDVBA
 
 	if (m_boxtype == DM800 || m_boxtype == DM500HD) // dm800 / 500hd
 	{
+		cap |= capHoldDecodeReference; // this is checked in eDVBChannel::getDemux
 		for (; i != m_demux.end(); ++i, ++n)
 		{
 			if (!i->m_inuse)
@@ -510,6 +513,7 @@ RESULT eDVBResourceManager::allocateDemux(eDVBRegisteredFrontend *fe, ePtr<eDVBA
 	}
 	else if (m_boxtype == DM8000)
 	{
+		cap |= capHoldDecodeReference; // this is checked in eDVBChannel::getDemux
 		for (; i != m_demux.end(); ++i, ++n)
 		{
 			if (fe)
@@ -1120,6 +1124,7 @@ eDVBChannel::eDVBChannel(eDVBResourceManager *mgr, eDVBAllocatedFrontend *fronte
 	m_frontend = frontend;
 
 	m_pvr_thread = 0;
+	m_pvr_fd_dst = -1;
 
 	m_skipmode_n = m_skipmode_m = m_skipmode_frames = 0;
 
@@ -1693,17 +1698,24 @@ RESULT eDVBChannel::getDemux(ePtr<iDVBDemux> &demux, int cap)
 
 		if (m_mgr->allocateDemux(m_frontend ? (eDVBRegisteredFrontend*)*m_frontend : (eDVBRegisteredFrontend*)0, our_demux, cap))
 			return -1;
-	}
 
-	demux = *our_demux;
+		demux = *our_demux;
+
 		/* don't hold a reference to the decoding demux, we don't need it. */
 
 		/* FIXME: by dropping the 'allocated demux' in favour of the 'iDVBDemux',
 		   the refcount is lost. thus, decoding demuxes are never allocated.
 
 		   this poses a big problem for PiP. */
-	if (cap & capDecode)
-		our_demux = 0;
+
+		if (cap & capHoldDecodeReference) // this is set in eDVBResourceManager::allocateDemux for Dm500HD/DM800 and DM8000
+			;
+		else if (cap & capDecode)
+			our_demux = 0;
+	}
+	else
+		demux = *our_demux;
+
 	return 0;
 }
 
@@ -1739,16 +1751,19 @@ RESULT eDVBChannel::playFile(const char *file)
 		/* DON'T EVEN THINK ABOUT FIXING THIS. FIX THE ATI SOURCES FIRST,
 		   THEN DO A REAL FIX HERE! */
 
-		/* (this codepath needs to be improved anyway.) */
-#if HAVE_DVB_API_VERSION < 3
-	m_pvr_fd_dst = open("/dev/pvr", O_WRONLY);
-#else
-	m_pvr_fd_dst = open("/dev/misc/pvr", O_WRONLY);
-#endif
 	if (m_pvr_fd_dst < 0)
 	{
-		eDebug("can't open /dev/misc/pvr - you need to buy the new(!) $$$ box! (%m)"); // or wait for the driver to be improved.
-		return -ENODEV;
+		/* (this codepath needs to be improved anyway.) */
+#if HAVE_DVB_API_VERSION < 3
+		m_pvr_fd_dst = open("/dev/pvr", O_WRONLY);
+#else
+		m_pvr_fd_dst = open("/dev/misc/pvr", O_WRONLY);
+#endif
+		if (m_pvr_fd_dst < 0)
+		{
+			eDebug("can't open /dev/misc/pvr - you need to buy the new(!) $$$ box! (%m)"); // or wait for the driver to be improved.
+			return -ENODEV;
+		}
 	}
 
 	m_pvr_thread = new eDVBChannelFilePush();
@@ -1760,6 +1775,8 @@ RESULT eDVBChannel::playFile(const char *file)
 	{
 		delete m_pvr_thread;
 		m_pvr_thread = 0;
+		::close(m_pvr_fd_dst);
+		m_pvr_fd_dst = -1;
 		eDebug("can't open PVR file %s (%m)", file);
 		return -ENOENT;
 	}
@@ -1776,10 +1793,11 @@ void eDVBChannel::stopFile()
 	if (m_pvr_thread)
 	{
 		m_pvr_thread->stop();
-		::close(m_pvr_fd_dst);
 		delete m_pvr_thread;
 		m_pvr_thread = 0;
 	}
+	if (m_pvr_fd_dst >= 0)
+		::close(m_pvr_fd_dst);
 }
 
 void eDVBChannel::setCueSheet(eCueSheet *cuesheet)
