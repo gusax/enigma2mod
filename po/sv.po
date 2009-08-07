@@ -49,7 +49,6 @@ msgstr ""
 
 msgid ""
 "\n"
-<<<<<<< HEAD:po/sv.po
 "Enigma2 will restart after the restore"
 msgstr ""
 "\n"
@@ -57,8 +56,7 @@ msgstr ""
 
 msgid ""
 "\n"
-=======
->>>>>>> master:po/sv.po
+
 "Online update of your Dreambox software."
 msgstr ""
 "\n"
