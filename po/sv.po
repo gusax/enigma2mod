@@ -3191,7 +3191,7 @@ msgid "Settings"
 msgstr "Inställningar"
 
 msgid "Setup"
-msgstr "Systeminställningar"
+msgstr "Installation"
 
 msgid "Setup Mode"
 msgstr "Nivå på systeminställningar:"
