@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxbox-enigma 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-03 17:10+0200\n"
+"POT-Creation-Date: 2009-08-04 21:43+0200\n"
 "PO-Revision-Date: 2009-05-20 09:35+0100\n"
 "Last-Translator: WeeGull <weegull@hotmail.com>\n"
 "Language-Team: WeeGull <weegull@hotmail.com>\n"
@@ -49,6 +49,7 @@ msgstr ""
 
 msgid ""
 "\n"
+<<<<<<< HEAD:po/sv.po
 "Enigma2 will restart after the restore"
 msgstr ""
 "\n"
@@ -56,6 +57,8 @@ msgstr ""
 
 msgid ""
 "\n"
+=======
+>>>>>>> master:po/sv.po
 "Online update of your Dreambox software."
 msgstr ""
 "\n"
@@ -107,6 +110,11 @@ msgstr ""
 
 msgid ""
 "\n"
+"System will restart after the restore!"
+msgstr ""
+
+msgid ""
+"\n"
 "View, install and remove available or installed packages."
 msgstr ""
 "\n"
@@ -116,6 +124,12 @@ msgid " "
 msgstr " "
 
 msgid " extensions."
+msgstr ""
+
+msgid " packages selected."
+msgstr ""
+
+msgid " updates available."
 msgstr ""
 
 msgid "#000000"
@@ -498,6 +512,9 @@ msgstr "Alternativt radioläge:"
 msgid "Alternative services tuner priority"
 msgstr "Tunerprioritering för alternativa kanaler:"
 
+msgid "Always ask before sending"
+msgstr ""
+
 msgid "An empty filename is illegal."
 msgstr "Ett tomt filnamn är inte tillåtet."
 
@@ -868,6 +885,9 @@ msgstr "Konfiguration"
 msgid "Configuration Mode"
 msgstr "Konfigurationsläge"
 
+msgid "Configuration for the CrashlogAutoSubmitter"
+msgstr ""
+
 msgid "Configuring"
 msgstr "Konfigurerar"
 
@@ -905,6 +925,9 @@ msgstr "Konstellation"
 msgid "Content does not fit on DVD!"
 msgstr "Innehållet får inte plats på en (1) DVD!"
 
+msgid "Continue"
+msgstr ""
+
 msgid "Continue in background"
 msgstr "Fortsätta i bakgrunden"
 
@@ -923,6 +946,17 @@ msgstr "Kunde inte ladda media! Ingen media inmatad?"
 #, python-format
 msgid "Couldn't record due to conflicting timer %s"
 msgstr "Kunde inte spela in på grund av timerkonflikt med %s"
+
+msgid "CrashlogAutoSubmit"
+msgstr ""
+
+msgid "CrashlogAutoSubmitConfiguration"
+msgstr ""
+
+msgid ""
+"Crashlogs found!\n"
+"Send them to Dream Multimedia ?"
+msgstr ""
 
 msgid "Create DVD-ISO"
 msgstr "Skapa DVD-ISO"
@@ -1012,6 +1046,9 @@ msgstr "Fördröjning"
 msgid "Delete"
 msgstr "Ta bort"
 
+msgid "Delete crashlogs"
+msgstr ""
+
 msgid "Delete entry"
 msgstr "Ta bort post"
 
@@ -1034,9 +1071,6 @@ msgstr "Avmarkera"
 
 msgid "Destination directory"
 msgstr "Målmapp"
-
-msgid "Details"
-msgstr "Detaljer"
 
 msgid "Detected HDD:"
 msgstr "Hittad hårddisk:"
@@ -1077,6 +1111,9 @@ msgstr "Avaktivera Bild-i-bild"
 
 msgid "Disable Subtitles"
 msgstr "Stäng av textremsor"
+
+msgid "Disable crashlog reporting"
+msgstr ""
 
 msgid "Disable timer"
 msgstr "Avaktivera timer"
@@ -1219,6 +1256,9 @@ msgstr "Vill du uppgradera programpaketet:\n"
 msgid "Do you want to view a tutorial?"
 msgstr "Vill du se en guide?"
 
+msgid "Don't ask, just send"
+msgstr ""
+
 msgid "Don't stop current event but disable coming events"
 msgstr "Avsluta inte pågående händelse men avaktivera följande"
 
@@ -1261,6 +1301,9 @@ msgstr "Läser in insticksmoduler, var vänlig vänta..."
 
 msgid "Dreambox format data DVD (HDTV compatible)"
 msgstr "Dreambox-formaterad dataDVD (HDTV-kompatibel)"
+
+msgid "Dreambox software because updates are available."
+msgstr ""
 
 msgid "Dutch"
 msgstr "Holländska"
@@ -1365,7 +1408,6 @@ msgstr ""
 "\n"
 "© 2006 - Stephan Reichholf"
 
-#. #-#-#-#-#  enigma2.pot (PACKAGE VERSION)  #-#-#-#-#
 #.   TRANSLATORS: Note that "Enter" in the two strings below should *not*
 #.       be interpreted as "Give speed as input". The intended meaning is
 #.       instead "Initial speed when starting winding", i.e. the speed at
@@ -1497,6 +1539,9 @@ msgstr "Flash"
 msgid "Flashing failed"
 msgstr "Flashning misslyckades"
 
+msgid "Following tasks will be done after you press continue."
+msgstr ""
+
 msgid "Format"
 msgstr "Signaltyp:"
 
@@ -1601,6 +1646,9 @@ msgstr "Hårddiskinstallation"
 msgid "Harddisk standby after"
 msgstr "Försätt hårddisk i vila efter:"
 
+msgid "Here is a small overview of the available icon states."
+msgstr ""
+
 msgid "Hidden network SSID"
 msgstr "Namn (SSID) för dolt nätverk"
 
@@ -1618,6 +1666,9 @@ msgstr "Horisontell"
 
 msgid "How many minutes do you want to record?"
 msgstr "Hur många minuter vill du spela in?"
+
+msgid "How to handle found crashlogs:"
+msgstr ""
 
 msgid "Hungarian"
 msgstr "Ungerska"
@@ -1728,13 +1779,6 @@ msgstr "Installera inställningar, utseende, mjukvara..."
 
 msgid "Install software updates..."
 msgstr "Installera mjukvaruuppdateringar..."
-
-msgid ""
-"Install/\n"
-"Remove"
-msgstr ""
-"Installera/\n"
-"Ta bort"
 
 msgid "Installation finished."
 msgstr "Installation klar."
@@ -2226,6 +2270,9 @@ msgstr "Nej, starta bara Dreamboxen"
 msgid "No, scan later manually"
 msgstr "Nej, sök manuellt senare"
 
+msgid "No, send them never."
+msgstr ""
+
 msgid "None"
 msgstr "Inga"
 
@@ -2524,6 +2571,12 @@ msgstr "Visa insticksmoduler"
 msgid "Plugin manager"
 msgstr "Hantera insticksmoduler"
 
+msgid "Plugin manager help..."
+msgstr ""
+
+msgid "Plugin manager process information..."
+msgstr ""
+
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
@@ -2605,6 +2658,9 @@ msgstr "Primär DNS"
 
 msgid "Priority"
 msgstr "Prioritet"
+
+msgid "Process"
+msgstr ""
 
 msgid "Properties of current title"
 msgstr "Egenskaper för nuvarande titel"
@@ -2754,6 +2810,9 @@ msgstr "Försöket att ta bort mappen %s misslyckades. (Kanske är mappen inte t
 
 msgid "Rename"
 msgstr "Byt namn"
+
+msgid "Rename crashlogs"
+msgstr ""
 
 msgid "Repeat"
 msgstr "Repetera"
@@ -3065,6 +3124,9 @@ msgstr "Separera titlar med en huvudmeny"
 msgid "Sequence repeat"
 msgstr "Sekvensrepetition"
 
+msgid "Serbian"
+msgstr ""
+
 msgid "Service"
 msgstr "Kanal"
 
@@ -3215,6 +3277,12 @@ msgstr "Bildspelsintervall (sek)"
 #, python-format
 msgid "Slot %d"
 msgstr "Slot %d"
+
+msgid "Slovakian"
+msgstr ""
+
+msgid "Slovenian"
+msgstr ""
 
 msgid "Slow"
 msgstr "Sakta"
@@ -3562,6 +3630,9 @@ msgstr ""
 msgid "The wizard is finished now."
 msgstr "Guiden är nu färdig."
 
+msgid "There are at least "
+msgstr ""
+
 msgid "There are no default services lists in your image."
 msgstr "Det finns ingen standard-kanallista i din image."
 
@@ -3617,6 +3688,18 @@ msgstr "Det här är steg 2."
 
 msgid "This is unsupported at the moment."
 msgstr "Detta stöds för närvarande inte."
+
+msgid "This plugin is installed."
+msgstr ""
+
+msgid "This plugin is not installed."
+msgstr ""
+
+msgid "This plugin will be installed."
+msgstr ""
+
+msgid "This plugin will be removed."
+msgstr ""
 
 msgid ""
 "This test checks for configured Nameservers.\n"
@@ -3884,6 +3967,16 @@ msgstr ""
 msgid "Uncommitted DiSEqC command"
 msgstr "Uncommitted DiSEqC kommando"
 
+msgid ""
+"Undo\n"
+"Install"
+msgstr ""
+
+msgid ""
+"Undo\n"
+"Remove"
+msgstr ""
+
 msgid "Unicable"
 msgstr "Unicable"
 
@@ -3910,6 +4003,9 @@ msgstr "Uppdatering utförd. Här är resultatet:"
 
 msgid "Updating... Please wait... This can take some minutes..."
 msgstr "Uppdaterar... Vänlig vänta... Detta tar några minuter...."
+
+msgid "Upgrade"
+msgstr ""
 
 msgid "Upgrade finished."
 msgstr "Uppgradering färdig."
@@ -3938,7 +4034,6 @@ msgstr "Använd strömmätning"
 msgid "Use a gateway"
 msgstr "Använd en gateway"
 
-#. #-#-#-#-#  enigma2.pot (PACKAGE VERSION)  #-#-#-#-#
 #.   TRANSLATORS: The effect of "Non-smooth winding" is that rather
 #.       than using ordinary "continuous" or "smooth" winding, a fast
 #.       sequence of stills is shown when winding at high speeds. This
@@ -4032,9 +4127,6 @@ msgstr ""
 msgid "Video mode selection."
 msgstr "Typ av bildutsignal."
 
-msgid "View"
-msgstr "Visa"
-
 msgid "View Movies..."
 msgstr "Visa Filmer..."
 
@@ -4046,6 +4138,9 @@ msgstr "Visa Rass-interaktivitet..."
 
 msgid "View Video CD..."
 msgstr "Visa VideoCD..."
+
+msgid "View details"
+msgstr ""
 
 msgid "View list of available "
 msgstr "Visa lista av tillgängliga "
@@ -4183,6 +4278,9 @@ msgstr "Väst"
 msgid "What do you want to scan?"
 msgstr "Vad vill du söka efter?"
 
+msgid "What to do with sent crashlogs:"
+msgstr ""
+
 msgid ""
 "When you do a factory reset, you will lose ALL your configuration data\n"
 "(including bouquets, services, satellite data ...)\n"
@@ -4230,6 +4328,9 @@ msgstr "Ja"
 msgid "Yes, and delete this movie"
 msgstr "Ja, och ta bort den här filmen."
 
+msgid "Yes, and don't ask again."
+msgstr ""
+
 msgid "Yes, backup my settings!"
 msgstr "Ja, säkerhetskopiera mina inställningar!"
 
@@ -4254,6 +4355,12 @@ msgstr "Ja, återvänd till filmlistan"
 msgid "Yes, view the tutorial"
 msgstr "Ja, visa guiden"
 
+msgid "You can cancel the installation."
+msgstr ""
+
+msgid "You can cancel the removal."
+msgstr ""
+
 msgid ""
 "You can choose some default settings now. Please select the settings you "
 "want to be installed."
@@ -4263,6 +4370,12 @@ msgstr ""
 
 msgid "You can choose, what you want to install..."
 msgstr "Du kan välja vad du vill ska installeras..."
+
+msgid "You can install this plugin."
+msgstr ""
+
+msgid "You can remove this plugin."
+msgstr ""
 
 msgid "You cannot delete this!"
 msgstr "Du kan inte ta bort detta!"

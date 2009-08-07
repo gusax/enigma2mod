@@ -45,10 +45,19 @@ class Standby(Screen):
 
 		#mute adc
 		self.setMute()
-		#get currently playing service reference
-		self.prev_running_service = self.session.nav.getCurrentlyPlayingServiceReference()
-		#stop actual played dvb-service
-		self.session.nav.stopService()
+
+		self.paused_service = None
+		self.prev_running_service = None
+		if self.session.current_dialog:
+			if self.session.current_dialog.ALLOW_SUSPEND == Screen.SUSPEND_STOPS:
+				#get currently playing service reference
+				self.prev_running_service = self.session.nav.getCurrentlyPlayingServiceReference()
+				#stop actual played dvb-service
+				self.session.nav.stopService()
+			elif self.session.current_dialog.ALLOW_SUSPEND == Screen.SUSPEND_PAUSES:
+				self.paused_service = self.session.current_dialog
+				self.paused_service.pauseService()
+
 		#set input to vcr scart
 		if SystemInfo["ScartSwitch"]:
 			self.avswitch.setInput("SCART")
@@ -63,6 +72,8 @@ class Standby(Screen):
 	def __onClose(self):
 		if self.prev_running_service:
 			self.session.nav.playService(self.prev_running_service)
+		elif self.paused_service:
+			self.paused_service.unPauseService()
 
 	def createSummary(self):
 		return StandbySummary
