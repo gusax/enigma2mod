@@ -1,6 +1,6 @@
-SUBDIRS = src
+SUBDIRS = src meta
 
-installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/SocketMMI
+installdir = $(pkglibdir)/python/Plugins/Extensions/SocketMMI
 
 install_PYTHON = \
 	src/socketmmi.so \
@@ -8,4 +8,4 @@ install_PYTHON = \
 	plugin.py \
 	SocketMMI.py
 
-install_DATA = LICENSE
+dist_install_DATA = LICENSE

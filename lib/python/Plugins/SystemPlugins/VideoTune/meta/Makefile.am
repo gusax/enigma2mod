@@ -1,3 +1,5 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/meta/
+installdir = $(pkgdatadir)/meta/enigma2/
 
-install_DATA = plugin_videotune.xml *.jpg
+dist_install_DATA = plugin_videotune.xml
+
+EXTRA_DIST = videotune.jpg

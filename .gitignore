@@ -33,4 +33,11 @@ main/enigma2
 version.h
 *.d
 .DS_Store
-
+*.la
+*.lo
+.libs/
+*.tar.gz
+config.h
+libtool
+ltmain.sh
+stamp-h1

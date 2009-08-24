@@ -1,7 +1,7 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/DemoPlugins/TestPlugin
+installdir = $(pkglibdir)/python/Plugins/DemoPlugins/TestPlugin
 
 install_PYTHON =	\
 	__init__.py \
 	plugin.py
  
-install_DATA = maintainer.info
+dist_install_DATA = maintainer.info

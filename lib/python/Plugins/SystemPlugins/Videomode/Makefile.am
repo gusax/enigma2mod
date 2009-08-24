@@ -1,11 +1,19 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/SystemPlugins/Videomode
+installdir = $(pkglibdir)/python/Plugins/SystemPlugins/Videomode
+
+SUBDIRS = meta
 
 install_PYTHON =	\
 	__init__.py \
 	plugin.py \
 	VideoHardware.py \
-	VideoWizard.py \
-	videowizard.xml \
-	*.png
+	VideoWizard.py
 
-install_DATA = LICENSE
+dist_install_DATA = \
+	DVI.png \
+	lcd_DVI.png \
+	lcd_Scart.png \
+	lcd_YPbPr.png \
+	LICENSE \
+	Scart.png \
+	videowizard.xml \
+	YPbPr.png

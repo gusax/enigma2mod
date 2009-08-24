@@ -1,24 +1,21 @@
-import time
-#from time import datetime
-from Tools import Directories, Notifications, ASCIItranslit
-
-from Components.config import config
-import timer
-import xml.etree.cElementTree
-
 from enigma import eEPGCache, getBestPlayableServiceReference, \
 	eServiceReference, iRecordableService, quitMainloop
 
-from Screens.MessageBox import MessageBox
+from Components.config import config
 from Components.TimerSanityCheck import TimerSanityCheck
-import NavigationInstance
 
+from Screens.MessageBox import MessageBox
 import Screens.Standby
-
-from time import localtime
-
+from Tools import Directories, Notifications, ASCIItranslit
 from Tools.XMLTools import stringToXML
+
+import timer
+import xml.etree.cElementTree
+import NavigationInstance
 from ServiceReference import ServiceReference
+
+from time import localtime, strftime, ctime, time
+from bisect import insort
 
 # ok, for descriptions etc we have:
 # service reference  (to get the service name)
@@ -65,8 +62,8 @@ class RecordTimerEntry(timer.TimerEntry, object):
 			recordings = NavigationInstance.instance.getRecordings()
 			if not recordings: # no more recordings exist
 				rec_time = NavigationInstance.instance.RecordTimer.getNextRecordingTime()
-				if rec_time > 0 and (rec_time - time.time()) < 360:
-					print "another recording starts in", rec_time - time.time(), "seconds... do not shutdown yet"
+				if rec_time > 0 and (rec_time - time()) < 360:
+					print "another recording starts in", rec_time - time(), "seconds... do not shutdown yet"
 				else:
 					print "no starting records in the next 360 seconds... immediate shutdown"
 					RecordTimerEntry.shutdown() # immediate shutdown
@@ -96,8 +93,8 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		timer.TimerEntry.__init__(self, int(begin), int(end))
 
 		if checkOldTimers == True:
-			if self.begin < time.time() - 1209600:
-				self.begin = int(time.time())
+			if self.begin < time() - 1209600:
+				self.begin = int(time())
 		
 		if self.end < self.begin:
 			self.end = self.begin
@@ -125,12 +122,12 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		self.resetState()
 	
 	def log(self, code, msg):
-		self.log_entries.append((int(time.time()), code, msg))
+		self.log_entries.append((int(time()), code, msg))
 		print "[TIMER]", msg
 
 	def calculateFilename(self):
 		service_name = self.service_ref.getServiceName()
-		begin_date = time.strftime("%Y%m%d %H%M", time.localtime(self.begin))
+		begin_date = strftime("%Y%m%d %H%M", localtime(self.begin))
 		
 		print "begin_date: ", begin_date
 		print "service_name: ", service_name
@@ -190,6 +187,12 @@ class RecordTimerEntry(timer.TimerEntry, object):
 					self.log(4, "failed to write meta information")
 				else:
 					self.log(2, "'prepare' failed: error %d" % prep_res)
+
+				# we must calc nur start time before stopRecordService call because in Screens/Standby.py TryQuitMainloop tries to get
+				# the next start time in evEnd event handler...
+				self.do_backoff()
+				self.start_prepare = time() + self.backoff
+
 				NavigationInstance.instance.stopRecordService(self.record_service)
 				self.record_service = None
 				return False
@@ -211,6 +214,12 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		if next_state == self.StatePrepared:
 			if self.tryPrepare():
 				self.log(6, "prepare ok, waiting for begin")
+				# create file to "reserve" the filename
+				# because another recording at the same time on another service can try to record the same event
+				# i.e. cable / sat.. then the second recording needs an own extension... when we create the file
+				# here than calculateFilename is happy
+				if not self.justplay:
+					open(self.Filename + ".ts", "w").close() 
 				# fine. it worked, resources are allocated.
 				self.next_activation = self.begin
 				self.backoff = 0
@@ -232,10 +241,6 @@ class RecordTimerEntry(timer.TimerEntry, object):
 					self.log(8, "currently running service is not a live service.. so stop it makes no sense")
 				else:
 					self.log(8, "currently no service running... so we dont need to stop it")
-
-			self.do_backoff()
-			# retry
-			self.start_prepare = time.time() + self.backoff
 			return False
 		elif next_state == self.StateRunning:
 			# if this timer has been cancelled, just go to "end" state.
@@ -261,7 +266,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 					self.log(13, "start record returned %d" % record_res)
 					self.do_backoff()
 					# retry
-					self.begin = time.time() + self.backoff
+					self.begin = time() + self.backoff
 					return False
 
 				return True
@@ -290,7 +295,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		if not self.autoincrease:
 			return False
 		if entry is None:
-			new_end =  int(time.time()) + self.autoincreasetime
+			new_end =  int(time()) + self.autoincreasetime
 		else:
 			new_end = entry.begin -30
 
@@ -303,7 +308,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 			del simulTimerList
 			new_end -= 30				# 30 Sekunden Prepare-Zeit lassen
 		del dummyentry
-		if new_end <= time.time():
+		if new_end <= time():
 			return False
 		self.end = new_end
 		return True
@@ -341,7 +346,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		self.backoff = 0
 		
 		if int(old_prepare) != int(self.start_prepare):
-			self.log(15, "record time changed, start prepare is now: %s" % time.ctime(self.start_prepare))
+			self.log(15, "record time changed, start prepare is now: %s" % ctime(self.start_prepare))
 
 	def gotRecordEvent(self, record, event):
 		# TODO: this is not working (never true), please fix. (comparing two swig wrapped ePtrs)
@@ -433,7 +438,36 @@ class RecordTimer(timer.Timer):
 			self.loadTimer()
 		except IOError:
 			print "unable to load timers from file!"
-			
+
+	def doActivate(self, w):
+		# when activating a timer which has already passed,
+		# simply abort the timer. don't run trough all the stages.
+		if w.shouldSkip():
+			w.state = RecordTimerEntry.StateEnded
+		else:
+			# when active returns true, this means "accepted".
+			# otherwise, the current state is kept.
+			# the timer entry itself will fix up the delay then.
+			if w.activate():
+				w.state += 1
+
+		self.timer_list.remove(w)
+
+		# did this timer reached the last state?
+		if w.state < RecordTimerEntry.StateEnded:
+			# no, sort it into active list
+			insort(self.timer_list, w)
+		else:
+			# yes. Process repeated, and re-add.
+			if w.repeated:
+				w.processRepeated()
+				w.state = RecordTimerEntry.StateWaiting
+				self.addTimerEntry(w)
+			else:
+				insort(self.processed_timers, w)
+		
+		self.stateChanged(w)
+
 	def isRecording(self):
 		isRunning = False
 		for timer in self.timer_list:
@@ -565,7 +599,7 @@ class RecordTimer(timer.Timer):
 		file.close()
 
 	def getNextZapTime(self):
-		now = time.time()
+		now = time()
 		for timer in self.timer_list:
 			if not timer.justplay or timer.begin < now:
 				continue
@@ -573,15 +607,16 @@ class RecordTimer(timer.Timer):
 		return -1
 
 	def getNextRecordingTime(self):
-		now = time.time()
+		now = time()
 		for timer in self.timer_list:
-			if timer.justplay or timer.begin < now:
+			next_act = timer.getNextActivation()
+			if timer.justplay or next_act < now:
 				continue
-			return timer.begin
+			return next_act
 		return -1
 
 	def isNextRecordAfterEventActionAuto(self):
-		now = time.time()
+		now = time()
 		t = None
 		for timer in self.timer_list:
 			if timer.justplay or timer.begin < now:

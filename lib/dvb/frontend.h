@@ -84,8 +84,12 @@ private:
 	char m_sec_filename[128];
 #endif
 	FRONTENDPARAMETERS parm;
-	int m_cur_orbpos; // only valid when this is a DVB-S tuner
-	int m_cur_pol; // only valid when this is a DVB-S tuner
+	union {
+		eDVBFrontendParametersSatellite sat;
+		eDVBFrontendParametersCable cab;
+		eDVBFrontendParametersTerrestrial ter;
+	} oparm;
+
 	int m_state;
 	ePtr<iDVBSatelliteEquipmentControl> m_sec;
 	ePtr<eSocketNotifier> m_sn;
@@ -105,7 +109,7 @@ private:
 	void feEvent(int);
 	void timeout();
 	void tuneLoop();  // called by m_tuneTimer
-	void setFrontend();
+	void setFrontend(bool recvEvents=true);
 	bool setSecSequencePos(int steps);
 	static int PriorityOrder;
 public:

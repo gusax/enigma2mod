@@ -1,4 +1,6 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/TuxboxPlugins
+installdir = $(pkglibdir)/python/Plugins/Extensions/TuxboxPlugins
+
+SUBDIRS = meta
 
 install_PYTHON =	\
 	__init__.py \

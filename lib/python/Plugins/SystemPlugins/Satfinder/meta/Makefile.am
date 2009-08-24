@@ -1,4 +1,5 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/meta/
+installdir = $(pkgdatadir)/meta/enigma2/
 
-install_DATA = plugin_satfinder.xml *.jpg
+dist_install_DATA = plugin_satfinder.xml
 
+EXTRA_DIST = satfinder.jpg

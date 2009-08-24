@@ -97,50 +97,9 @@ int eStaticServiceDVBInformation::isPlayable(const eServiceReference &ref, const
 }
 
 extern void PutToDict(ePyObject &dict, const char*key, long value);  // defined in dvb/frontend.cpp
-extern void PutToDict(ePyObject &dict, const char*key, ePyObject item); // defined in dvb/frontend.cpp
-extern void PutToDict(ePyObject &dict, const char*key, const char *value); // defined in dvb/frontend.cpp
-
-void PutSatelliteDataToDict(ePyObject &dict, eDVBFrontendParametersSatellite &feparm)
-{
-	PutToDict(dict, "tuner_type", "DVB-S");
-	PutToDict(dict, "frequency", feparm.frequency);
-	PutToDict(dict, "symbol_rate", feparm.symbol_rate);
-	PutToDict(dict, "orbital_position", feparm.orbital_position);
-	PutToDict(dict, "inversion", feparm.inversion);
-	PutToDict(dict, "fec_inner", feparm.fec);
-	PutToDict(dict, "modulation", feparm.modulation);
-	PutToDict(dict, "polarization", feparm.polarisation);
-	if (feparm.system == eDVBFrontendParametersSatellite::System_DVB_S2)
-	{
-		PutToDict(dict, "rolloff", feparm.rolloff);
-		PutToDict(dict, "pilot", feparm.pilot);
-	}
-	PutToDict(dict, "system", feparm.system);
-}
-
-void PutTerrestrialDataToDict(ePyObject &dict, eDVBFrontendParametersTerrestrial &feparm)
-{
-	PutToDict(dict, "tuner_type", "DVB-T");
-	PutToDict(dict, "frequency", feparm.frequency);
-	PutToDict(dict, "bandwidth", feparm.bandwidth);
-	PutToDict(dict, "code_rate_lp", feparm.code_rate_LP);
-	PutToDict(dict, "code_rate_hp", feparm.code_rate_HP);
-	PutToDict(dict, "constellation", feparm.modulation);
-	PutToDict(dict, "transmission_mode", feparm.transmission_mode);
-	PutToDict(dict, "guard_interval", feparm.guard_interval);
-	PutToDict(dict, "hierarchy_information", feparm.hierarchy);
-	PutToDict(dict, "inversion", feparm.inversion);
-}
-
-void PutCableDataToDict(ePyObject &dict, eDVBFrontendParametersCable &feparm)
-{
-	PutToDict(dict, "tuner_type", "DVB-C");
-	PutToDict(dict, "frequency", feparm.frequency);
-	PutToDict(dict, "symbol_rate", feparm.symbol_rate);
-	PutToDict(dict, "modulation", feparm.modulation);
-	PutToDict(dict, "inversion", feparm.inversion);
-	PutToDict(dict, "fec_inner", feparm.fec_inner);
-}
+extern void PutSatelliteDataToDict(ePyObject &dict, eDVBFrontendParametersSatellite &feparm); // defined in dvb/frontend.cpp
+extern void PutTerrestrialDataToDict(ePyObject &dict, eDVBFrontendParametersTerrestrial &feparm); // defined in dvb/frontend.cpp
+extern void PutCableDataToDict(ePyObject &dict, eDVBFrontendParametersCable &feparm); // defined in dvb/frontend.cpp
 
 PyObject *eStaticServiceDVBInformation::getInfoObject(const eServiceReference &r, int what)
 {
@@ -466,6 +425,7 @@ public:
 	
 	RESULT deleteFromDisk(int simulate);
 	RESULT getListOfFilenames(std::list<std::string> &);
+	RESULT reindex();
 };
 
 DEFINE_REF(eDVBPVRServiceOfflineOperations);
@@ -525,6 +485,42 @@ RESULT eDVBPVRServiceOfflineOperations::getListOfFilenames(std::list<std::string
 	std::string tmp = m_ref.path;
 	tmp.erase(m_ref.path.length()-3);
 	res.push_back(tmp + ".eit");
+	return 0;
+}
+
+RESULT eDVBPVRServiceOfflineOperations::reindex()
+{
+	const char *filename = m_ref.path.c_str();
+	eDebug("reindexing %s...", filename);
+
+	eMPEGStreamInformation info;
+	eMPEGStreamParserTS parser(info);
+	
+	info.startSave(filename);
+	
+	eRawFile f;
+	
+	int err = f.open(m_ref.path.c_str(), 0);
+	if (err < 0)
+		return -1;
+	
+	off_t length = f.length();
+	unsigned char buffer[188*256*4];
+	while (1)
+	{
+		off_t offset = f.lseek(0, SEEK_CUR);
+		eDebug("at %08llx / %08llx (%d %%)", offset, length, (int)(offset * 100 / length));
+		int r = f.read(buffer, sizeof(buffer));
+		if (!r)
+			break;
+		if (r < 0)
+			return r;
+		parser.parseData(offset, buffer, r);
+	}
+	
+	info.stopSave();
+	f.close();
+	
 	return 0;
 }
 
@@ -920,7 +916,7 @@ eDVBServicePlay::eDVBServicePlay(const eServiceReference &ref, eDVBService *serv
 	m_is_primary = 1;
 	m_is_pvr = !m_reference.path.empty();
 	
-	m_timeshift_enabled = m_timeshift_active = 0;
+	m_timeshift_enabled = m_timeshift_active = 0, m_timeshift_changed = 0;
 	m_skipmode = 0;
 	
 	CONNECT(m_service_handler.serviceEvent, eDVBServicePlay::serviceEvent);
@@ -1758,21 +1754,26 @@ int eDVBServicePlay::selectAudioStream(int i)
 		return -4;
 	}
 
+	int rdsPid = apid;
+
 		/* if we are not in PVR mode, timeshift is not active and we are not in pip mode, check if we need to enable the rds reader */
 	if (!(m_is_pvr || m_timeshift_active || !m_is_primary))
-		if (!m_rds_decoder)
+	{
+		int different_pid = program.videoStreams.empty() && program.audioStreams.size() == 1 && program.audioStreams[stream].rdsPid != -1;
+		if (different_pid)
+			rdsPid = program.audioStreams[stream].rdsPid;
+		if (!m_rds_decoder || m_rds_decoder->getPid() != rdsPid)
 		{
+			m_rds_decoder = 0;
 			ePtr<iDVBDemux> data_demux;
 			if (!h.getDataDemux(data_demux))
 			{
-				m_rds_decoder = new eDVBRdsDecoder(data_demux);
+				m_rds_decoder = new eDVBRdsDecoder(data_demux, different_pid);
 				m_rds_decoder->connectEvent(slot(*this, &eDVBServicePlay::rdsDecoderEvent), m_rds_decoder_event_connection);
+				m_rds_decoder->start(rdsPid);
 			}
 		}
-
-		/* if we decided that we need one, update the pid */
-	if (m_rds_decoder)
-		m_rds_decoder->start(apid);
+	}
 
 			/* store new pid as default only when:
 				a.) we have an entry in the service db for the current service,
@@ -2229,6 +2230,7 @@ void eDVBServicePlay::switchToLive()
 		/* free the timeshift service handler, we need the resources */
 	m_service_handler_timeshift.free();
 	m_timeshift_active = 0;
+	m_timeshift_changed = 1;
 
 	m_event((iPlayableService*)this, evSeekableStatusChanged);
 
@@ -2251,6 +2253,7 @@ void eDVBServicePlay::switchToTimeshift()
 	m_video_event_connection = 0;
 
 	m_timeshift_active = 1;
+	m_timeshift_changed = 1;
 
 	eServiceReferenceDVB r = (eServiceReferenceDVB&)m_reference;
 	r.path = m_timeshift_file;
@@ -2318,27 +2321,44 @@ void eDVBServicePlay::updateDecoder()
 	if (!m_decoder)
 	{
 		h.getDecodeDemux(m_decode_demux);
+		if (m_timeshift_changed)
+			m_decoder = 0;
 		if (m_decode_demux)
 		{
 			m_decode_demux->getMPEGDecoder(m_decoder, m_is_primary);
 			if (m_decoder)
 				m_decoder->connectVideoEvent(slot(*this, &eDVBServicePlay::video_event), m_video_event_connection);
+			if (m_is_primary)
+			{
+				m_teletext_parser = new eDVBTeletextParser(m_decode_demux);
+				m_teletext_parser->connectNewPage(slot(*this, &eDVBServicePlay::newSubtitlePage), m_new_subtitle_page_connection);
+				m_subtitle_parser = new eDVBSubtitleParser(m_decode_demux);
+				m_subtitle_parser->connectNewPage(slot(*this, &eDVBServicePlay::newDVBSubtitlePage), m_new_dvb_subtitle_page_connection);
+				if (m_timeshift_changed)
+				{
+					ePyObject subs = getCachedSubtitle();
+					if (subs != Py_None)
+					{
+						int type = PyInt_AsLong(PyTuple_GET_ITEM(subs, 0)),
+						    pid = PyInt_AsLong(PyTuple_GET_ITEM(subs, 1)),
+						    comp_page = PyInt_AsLong(PyTuple_GET_ITEM(subs, 2)), // ttx page
+						    anc_page = PyInt_AsLong(PyTuple_GET_ITEM(subs, 3)); // ttx magazine
+						if (type == 0) // dvb
+							m_subtitle_parser->start(pid, comp_page, anc_page);
+						else if (type == 1) // ttx
+							m_teletext_parser->setPageAndMagazine(comp_page, anc_page);
+					}
+					Py_DECREF(subs);
+				}
+			}
+			m_decoder->play(); /* pids will be set later */
 		}
-		if (m_decode_demux && m_is_primary)
-		{
-			m_teletext_parser = new eDVBTeletextParser(m_decode_demux);
-			m_teletext_parser->connectNewPage(slot(*this, &eDVBServicePlay::newSubtitlePage), m_new_subtitle_page_connection);
-			m_subtitle_parser = new eDVBSubtitleParser(m_decode_demux);
-			m_subtitle_parser->connectNewPage(slot(*this, &eDVBServicePlay::newDVBSubtitlePage), m_new_dvb_subtitle_page_connection);
-		} else
-		{
-			m_teletext_parser = 0;
-			m_subtitle_parser = 0;
-		}
-
 		if (m_cue)
 			m_cue->setDecodingDemux(m_decode_demux, m_decoder);
+		m_decoder->play(); /* pids will be set later. */
 	}
+
+	m_timeshift_changed = 0;
 
 	if (m_decoder)
 	{
@@ -2409,13 +2429,7 @@ void eDVBServicePlay::updateDecoder()
 				m_decoder->setRadioPic(radio_pic);
 		}
 
-/*		if (!m_is_primary)
-			m_decoder->setTrickmode();
-		else */ if (m_is_paused)
-			m_decoder->pause();
-		else
-			m_decoder->play();
-
+		m_decoder->set();
 		m_decoder->setAudioChannel(achannel);
 
 		/* don't worry about non-existing services, nor pvr services */
@@ -2703,7 +2717,7 @@ PyObject *eDVBServicePlay::getCachedSubtitle()
 					PyTuple_SET_ITEM(tuple, 0, PyInt_FromLong(1)); // type teletext
 				else
 					PyTuple_SET_ITEM(tuple, 0, PyInt_FromLong(0)); // type dvb
-				PyTuple_SET_ITEM(tuple, 1, PyInt_FromLong((data&0xFFFF0000)>>16)); // pid
+				PyTuple_SET_ITEM(tuple, 1, PyInt_FromLong(pid)); // pid
 				PyTuple_SET_ITEM(tuple, 2, PyInt_FromLong((data&0xFF00)>>8)); // composition_page / page
 				PyTuple_SET_ITEM(tuple, 3, PyInt_FromLong(data&0xFF)); // ancillary_page / magazine
 				return tuple;

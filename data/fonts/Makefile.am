@@ -1,6 +1,7 @@
-AUTOMAKE_OPTIONS = gnu
-
 installdir = $(FONTDIR)
 
-install_DATA = \
-	*.ttf
+dist_install_DATA = \
+	ae_AlMateen.ttf \
+	lcd.ttf \
+	md_khmurabi_10.ttf \
+	nmsbd.ttf

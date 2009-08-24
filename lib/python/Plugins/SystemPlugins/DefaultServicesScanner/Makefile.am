@@ -1,4 +1,6 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/SystemPlugins/DefaultServicesScanner
+installdir = $(pkglibdir)/python/Plugins/SystemPlugins/DefaultServicesScanner
+
+SUBDIRS = meta
 
 install_PYTHON =	\
 	__init__.py \

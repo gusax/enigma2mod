@@ -1,10 +1,13 @@
-AUTOMAKE_OPTIONS = gnu
+installdir = $(pkgdatadir)/defaults/Dream
 
-# SUBDIRS = packages
-
-installdir = $(DATADIR)/enigma2/defaults/Dream
-
-install_DATA = \
-	*.info \
-	userbouquet.favourites.tv bouquets.tv \
-	settings.7025 settings.800 settings.8000
+dist_install_DATA = \
+	bouquets.tv \
+	dm500hd.info \
+	dm7025.info \
+	dm8000.info \
+	dm800.info \
+	settings.500hd \
+	settings.7025 \
+	settings.800 \
+	settings.8000 \
+	userbouquet.favourites.tv

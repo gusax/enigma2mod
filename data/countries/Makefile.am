@@ -1,6 +1,33 @@
-AUTOMAKE_OPTIONS = gnu
+installdir = $(pkgdatadir)/countries
 
-installdir = $(DATADIR)/enigma2/countries
-
-install_DATA = \
-	*.png
+dist_install_DATA = \
+	ad.png \
+	ae.png \
+	cz.png \
+	de.png \
+	dk.png \
+	en.png \
+	es.png \
+	fi.png \
+	fr.png \
+	gr.png \
+	hr.png \
+	hu.png \
+	is.png \
+	it.png \
+	lt.png \
+	lv.png \
+	missing.png \
+	nl.png \
+	no.png \
+	pl.png \
+	pt.png \
+	ro.png \
+	ru.png \
+	se.png \
+	si.png \
+	sk.png \
+	tr.png \
+	ua.png \
+	x-fy.png \
+	yu.png

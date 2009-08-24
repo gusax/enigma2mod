@@ -1,4 +1,6 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/MediaPlayer
+installdir = $(pkglibdir)/python/Plugins/Extensions/MediaPlayer
+
+SUBDIRS = meta
 
 install_PYTHON = \
 	__init__.py plugin.py settings.py

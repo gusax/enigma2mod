@@ -1,10 +1,12 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/SystemPlugins/PositionerSetup
+installdir = $(pkglibdir)/python/Plugins/SystemPlugins/PositionerSetup
+
+SUBDIRS = meta
 
 install_PYTHON =	\
 	__init__.py \
 	plugin.py
 
-install_DATA = LICENSE
+dist_install_DATA = LICENSE
 
 
  

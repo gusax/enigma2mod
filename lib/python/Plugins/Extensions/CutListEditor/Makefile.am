@@ -1,7 +1,9 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/CutListEditor
+installdir = $(pkglibdir)/python/Plugins/Extensions/CutListEditor
+
+SUBDIRS = meta
 
 install_PYTHON =	\
 	__init__.py \
 	plugin.py
 
-install_DATA = keymap.xml LICENSE
+dist_install_DATA = keymap.xml LICENSE

@@ -5,7 +5,7 @@ GETTEXT=xgettext
 #MSGFMT = ./msgfmt.py
 MSGFMT = msgfmt
 
-LANGS := ar ca cs da de el en es fi fr fy hr hu is it lt lv nl no pl pt ru sv sk sl sr tr uk
+LANGS := $(shell cat $(srcdir)/LINGUAS)
 LANGPO := $(foreach LANG, $(LANGS),$(LANG).po)
 LANGMO := $(foreach LANG, $(LANGS),$(LANG).mo)
 
@@ -52,6 +52,6 @@ clean-local:
 
 install-data-am: default
 	for lang in $(LANGS); do \
-		mkdir -p $(DESTDIR)$(DATADIR)/enigma2/po/$$lang/LC_MESSAGES; \
-		cp $$lang.mo $(DESTDIR)$(DATADIR)/enigma2/po/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		mkdir -p $(DESTDIR)$(pkgdatadir)/po/$$lang/LC_MESSAGES; \
+		cp $$lang.mo $(DESTDIR)$(pkgdatadir)/po/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done

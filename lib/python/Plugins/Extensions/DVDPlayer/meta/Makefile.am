@@ -1,3 +1,5 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/meta/
+installdir = $(pkgdatadir)/meta/enigma2/
 
-install_DATA = plugin_dvdplayer.xml *.jpg
+dist_install_DATA = plugin_dvdplayer.xml
+
+EXTRA_DIST = dvdplayer.jpg

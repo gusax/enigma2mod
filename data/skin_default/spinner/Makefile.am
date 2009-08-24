@@ -1,6 +1,7 @@
-AUTOMAKE_OPTIONS = gnu
+installdir = $(pkgdatadir)/skin_default/spinner
 
-installdir = $(DATADIR)/enigma2/skin_default/spinner
-
-install_DATA = \
-	*.png
+dist_install_DATA = \
+	wait1.png \
+	wait2.png \
+	wait3.png \
+	wait4.png

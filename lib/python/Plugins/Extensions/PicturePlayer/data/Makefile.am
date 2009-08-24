@@ -1,6 +1,2 @@
-AUTOMAKE_OPTIONS = gnu
-
-installdir = $(DATADIR)/enigma2
-
-install_DATA = \
+dist_pkgdata_DATA = \
 	pic_frame.png
