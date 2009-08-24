@@ -10,6 +10,7 @@ Makefile
 *.so.0.0
 *.cxx
 .deps
+.svn
 COPYING
 INSTALL
 aclocal.m4
