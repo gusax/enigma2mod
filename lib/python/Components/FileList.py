@@ -27,6 +27,7 @@ EXTENSIONS = {
 		"mpeg": "movie",
 		"mkv": "movie",
 		"mp4": "movie",
+		"m4v": "movie",
 		"mov": "movie"
 	}
 
