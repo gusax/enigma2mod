@@ -439,7 +439,6 @@ class GraphMultiEPG(Screen):
 				"ok": self.zapTo,
 				"timerAdd": self.timerAdd,
 				"info": self.infoKeyPressed,
-				"red": self.EMPTY,
 				"input_date_time": self.enterDateTime,
 				"nextBouquet": self.nextBouquet,
 				"prevBouquet": self.prevBouquet,
