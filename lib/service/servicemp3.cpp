@@ -498,6 +498,8 @@ RESULT eServiceMP3::seekTo(pts_t to)
 	if (!m_gst_playbin)
 		return -1;
 
+	eSingleLocker l(m_subs_to_pull_lock); // this is needed to dont handle incomming subtitles during seek!
+
 		/* convert pts to nanoseconds */
 	gint64 time_nanoseconds = to * 11111LL;
 	if (!gst_element_seek (m_gst_playbin, 1.0, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH,
@@ -509,7 +511,6 @@ RESULT eServiceMP3::seekTo(pts_t to)
 	}
 
 	m_subtitle_pages.clear();
-	eSingleLocker l(m_subs_to_pull_lock);
 	m_subs_to_pull = 0;
 
 	return 0;
@@ -1096,7 +1097,6 @@ void eServiceMP3::gstBusCall(GstBus *bus, GstMessage *msg)
 			eWarning("Gstreamer error: %s (%i) from %s", err->message, err->code, sourceName );
 			if ( err->domain == GST_STREAM_ERROR )
 			{
-				eDebug("err->code %d", err->code);
 				if ( err->code == GST_STREAM_ERROR_CODEC_NOT_FOUND )
 				{
 					if ( g_strrstr(sourceName, "videosink") )
@@ -1164,6 +1164,9 @@ void eServiceMP3::gstBusCall(GstBus *bus, GstMessage *msg)
 			g_object_get (m_gst_playbin, "n-text", &n_text, NULL);
 
 			eDebug("eServiceMP3::async-done - %d video, %d audio, %d subtitle", n_video, n_audio, n_text);
+
+			if ( n_video + n_audio <= 0 )
+				stop();
 
 			active_idx = 0;
 
