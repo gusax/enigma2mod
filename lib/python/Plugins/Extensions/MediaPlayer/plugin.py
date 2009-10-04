@@ -20,6 +20,7 @@ from Components.AVSwitch import AVSwitch
 from Components.Harddisk import harddiskmanager
 from Components.config import config
 from Tools.Directories import fileExists, pathExists, resolveFilename, SCOPE_CONFIG, SCOPE_PLAYLIST, SCOPE_SKIN_IMAGE
+from Tools.HardwareInfo import HardwareInfo
 from settings import MediaPlayerSettings
 import random
 
@@ -110,7 +111,10 @@ class MediaPlayer(Screen, InfoBarBase, InfoBarSeek, InfoBarAudioSelection, InfoB
 
 		# 'None' is magic to start at the list of mountpoints
 		defaultDir = config.mediaplayer.defaultDir.getValue()
-		self.filelist = FileList(defaultDir, matchingPattern = "(?i)^.*\.(mp2|mp3|ogg|ts|m2ts|wav|wave|m3u|pls|e2pls|mpg|vob|avi|divx|mkv|mp4|m4v|m4a|dat|flac|mov)", useServiceRef = True, additionalExtensions = "4098:m3u 4098:e2pls 4098:pls")
+		if HardwareInfo.get_device_name() == 'dm800':
+		  self.filelist = FileList(defaultDir, matchingPattern = "(?i)^.*\.(mp2|mp3|ogg|ts|m2ts|wav|wave|m3u|pls|e2pls|mpg|vob|mkv|mp4|m4v|m4a|dat|flac|mov)", useServiceRef = True, additionalExtensions = "4098:m3u 4098:e2pls 4098:pls")
+		else:
+		  self.filelist = FileList(defaultDir, matchingPattern = "(?i)^.*\.(mp2|mp3|ogg|ts|m2ts|wav|wave|m3u|pls|e2pls|mpg|vob|avi|divx|mkv|mp4|m4v|m4a|dat|flac|mov)", useServiceRef = True, additionalExtensions = "4098:m3u 4098:e2pls 4098:pls")
 		self["filelist"] = self.filelist
 
 		self.playlist = MyPlayList()
