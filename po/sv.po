@@ -392,7 +392,7 @@ msgstr ""
 "Dreamboxen. Stänga av nu?"
 
 msgid "A small overview of the available icon states and actions."
-msgstr ""
+msgstr "Överblick över tillgängliga ikontillstånd och aktiviteter."
 
 msgid ""
 "A timer failed to record!\n"
@@ -447,7 +447,7 @@ msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
 
 msgid "Add WLAN configuration?"
-msgstr ""
+msgstr "Lägg till trådlös nätverkskonfiguration?"
 
 msgid "Add a mark"
 msgstr "Lägg till markör"
@@ -456,7 +456,7 @@ msgid "Add a new title"
 msgstr "Lägg till ny titel"
 
 msgid "Add network configuration?"
-msgstr ""
+msgstr "Lägg till nätverkskonfiguration?"
 
 msgid "Add timer"
 msgstr "Lägg till timer"
@@ -474,12 +474,14 @@ msgid ""
 "Adds enigma2 settings and dreambox model informations like SN, rev... if "
 "enabled."
 msgstr ""
+ "Lägger till enigma2-inställningar och uppgifter om Dreamboxen "
+ "(serienummer, revision osv) om aktiverad."
 
 msgid "Adds network configuration if enabled."
-msgstr ""
+msgstr "Lägger till nätverkskonfiguration om aktiverad."
 
 msgid "Adds wlan configuration if enabled."
-msgstr ""
+msgstr "Lägger till trådlös nätverkskonfiguration om aktiverad."
 
 msgid ""
 "Adjust the color settings so that all the color shades are distinguishable, "
@@ -499,7 +501,7 @@ msgid "Advanced Options"
 msgstr "Avancerade inställningar"
 
 msgid "Advanced Video Enhancement Setup"
-msgstr ""
+msgstr "Inställningar för avancerad bildjustering"
 
 msgid "Advanced Video Setup"
 msgstr "Avancerade bildinställningar"
@@ -545,7 +547,7 @@ msgid "An unknown error occured!"
 msgstr "Ett okänt fel uppstod!"
 
 msgid "Anonymize crashlog?"
-msgstr ""
+msgstr "Anonymisera kraschloggar?"
 
 msgid "Arabic"
 msgstr "Arabiska"
@@ -565,7 +567,7 @@ msgstr ""
 "följande säkerhetskopia:\n"
 
 msgid "Are you sure you want to exit this wizard?"
-msgstr ""
+msgstr "Är du säker på att du vill avsluta guiden?"
 
 msgid ""
 "Are you sure you want to restart your network interfaces?\n"
@@ -619,7 +621,7 @@ msgid "Auto chapter split every ? minutes (0=never)"
 msgstr "Automatisk kapiteluppdelning varje ? minut (0=aldrig)"
 
 msgid "Auto flesh"
-msgstr ""
+msgstr "Automatisk hudfärgsjustering"
 
 msgid "Auto scart switching"
 msgstr "Automatisk scartväxling"
@@ -706,10 +708,10 @@ msgid "Behavior when a movie reaches the end"
 msgstr "När en film tar slut:"
 
 msgid "Block noise reduction"
-msgstr ""
+msgstr "Blockreducering"
 
 msgid "Blue boost"
-msgstr ""
+msgstr "Blå förstärkning"
 
 msgid "Bookmarks"
 msgstr "Bokmärken"
@@ -792,7 +794,7 @@ msgid "Change setup pin"
 msgstr "Ändra installations-PINkod"
 
 msgid "Change step size"
-msgstr ""
+msgstr "Ändra stegstorlek"
 
 msgid "Channel"
 msgstr "Kanal"
@@ -858,13 +860,13 @@ msgid "Cleanup"
 msgstr "Rensa"
 
 msgid "Cleanup Wizard"
-msgstr ""
+msgstr "Upprensningsguiden"
 
 msgid "Cleanup Wizard settings"
-msgstr ""
+msgstr "Inställningar för upprensningsguiden"
 
 msgid "CleanupWizard"
-msgstr ""
+msgstr "Upprensningsguide"
 
 msgid "Clear before scan"
 msgstr "Rensa före sökning:"
@@ -876,7 +878,7 @@ msgid "Close"
 msgstr "Stäng"
 
 msgid "Close title selection"
-msgstr ""
+msgstr "Välj titel"
 
 msgid "Code rate high"
 msgstr "Code rate hög"
@@ -1001,7 +1003,7 @@ msgid "Couldn't record due to conflicting timer %s"
 msgstr "Kunde inte spela in på grund av timerkonflikt med %s"
 
 msgid "Crashlog settings"
-msgstr ""
+msgstr "Inställningar för kraschloggar"
 
 msgid "CrashlogAutoSubmit"
 msgstr "Skicka kraschloggar"
@@ -1038,7 +1040,7 @@ msgid "Current settings:"
 msgstr "Nuvarande inställningar:"
 
 msgid "Current value: "
-msgstr ""
+msgstr "Nuvarande värde:"
 
 msgid "Current version:"
 msgstr "Nuvarande version:"
@@ -1077,13 +1079,13 @@ msgid "DVB-S2"
 msgstr "DVB-S2"
 
 msgid "DVD File Browser"
-msgstr ""
+msgstr "DVD filutforskare"
 
 msgid "DVD Player"
 msgstr "DVDspelare"
 
 msgid "DVD Titlelist"
-msgstr ""
+msgstr "DVD titellista"
 
 msgid "DVD media toolbox"
 msgstr "DVD-mediaverktyg"
@@ -1095,19 +1097,19 @@ msgid "Date"
 msgstr "Datum"
 
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
-msgstr ""
+msgstr "Välj om du vill slå av eller på uppstädningsguiden."
 
 msgid "Decide what should be done when crashlogs are found."
-msgstr ""
+msgstr "Välj vad som skall göras när kraschloggar hittas."
 
 msgid "Decide what should happen to the crashlogs after submission."
-msgstr ""
+msgstr "Välj vad som ska hända med kraschloggar efter att de skickats."
 
 msgid "Deep Standby"
 msgstr "Stäng av"
 
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 msgid "Default Settings"
 msgstr "Standardinställningar"
@@ -1324,7 +1326,8 @@ msgstr "Återuppta uppspelningen?"
 msgid ""
 "Do you want to submit your email address and name so that we can contact you "
 "if needed?"
-msgstr ""
+msgstr "Vill du bifoga din emailadress och ditt namn så vi kan kontakta dig "
+"vid behov?"
 
 msgid "Do you want to update your Dreambox?"
 msgstr "Vill du uppdatera din Dreambox?"
@@ -1395,7 +1398,7 @@ msgid "Dutch"
 msgstr "Holländska"
 
 msgid "Dynamic contrast"
-msgstr ""
+msgstr "Dynamisk kontrast"
 
 msgid "E"
 msgstr "Ö"
@@ -1441,7 +1444,7 @@ msgid "Edit title"
 msgstr "Redigera titel"
 
 msgid "Edit upgrade source url."
-msgstr ""
+msgstr "Redigera adress till uppgraderingskälla."
 
 msgid "Electronic Program Guide"
 msgstr "Programguide"
@@ -1453,7 +1456,7 @@ msgid "Enable 5V for active antenna"
 msgstr "Aktivera 5V för aktiv antenn"
 
 msgid "Enable Cleanup Wizard?"
-msgstr ""
+msgstr "Aktivera uppstädningsguiden?"
 
 msgid "Enable multiple bouquets"
 msgstr "Aktivera stöd för flera favoritlistor:"
@@ -1537,7 +1540,7 @@ msgid "Enter the service pin"
 msgstr "Ange PIN-kod för kanal"
 
 msgid "Enter your email address so that we can contact you if needed."
-msgstr ""
+msgstr "Skriv in din emailadress så vi kan kontakta dig vid behov."
 
 msgid "Error"
 msgstr "Fel"
@@ -1554,7 +1557,7 @@ msgstr ""
 "Försök igen?"
 
 msgid "Estonian"
-msgstr ""
+msgstr "Estniska"
 
 msgid "Eventview"
 msgstr "Programinformation"
@@ -1578,7 +1581,7 @@ msgid "Exit editor"
 msgstr "Avsluta editor"
 
 msgid "Exit the cleanup wizard"
-msgstr ""
+msgstr "Avsluta uppstädningsguiden"
 
 msgid "Exit the wizard"
 msgstr "Avsluta guiden"
@@ -1746,7 +1749,7 @@ msgid "Greek"
 msgstr "Grekiska"
 
 msgid "Green boost"
-msgstr ""
+msgstr "Grön förstärkning"
 
 msgid "Guard Interval"
 msgstr "Guard intervall"
@@ -1788,8 +1791,7 @@ msgid "How to handle found crashlogs:"
 msgstr "Hur funna kraschloggar ska hanteras:"
 
 msgid "Hue"
-msgstr ""
->>>>>>> master
+msgstr "Färg"
 
 msgid "Hungarian"
 msgstr "Ungerska"
@@ -1851,7 +1853,7 @@ msgid ""
 msgstr "För att kunna starta en timerinspelning bytte TVn till rätt kanal!\n"
 
 msgid "Include your email and name (optional) in the mail?"
-msgstr ""
+msgstr "Inkludera din emailadress och namn (valfritt) i mailet?"
 
 msgid "Increased voltage"
 msgstr "Ökad spänning"
@@ -1860,7 +1862,7 @@ msgid "Index"
 msgstr "Index"
 
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 msgid "InfoBar"
 msgstr "MiniEPG"
@@ -2006,7 +2008,7 @@ msgid "Language..."
 msgstr "Systemspråk..."
 
 msgid "Last config"
-msgstr ""
+msgstr "Förra konfigurationen"
 
 msgid "Last speed"
 msgstr "Föregående hastighet"
@@ -2166,7 +2168,7 @@ msgid "Monday"
 msgstr "Måndag"
 
 msgid "Mosquito noise reduction"
-msgstr ""
+msgstr "Mosquito noise-reduktion"
 
 msgid "Mount failed"
 msgstr "Montering misslyckades"
@@ -2404,7 +2406,7 @@ msgid "No, just start my dreambox"
 msgstr "Nej, starta bara Dreamboxen"
 
 msgid "No, not now"
-msgstr ""
+msgstr "Nej, inte nu"
 
 msgid "No, scan later manually"
 msgstr "Nej, sök manuellt senare"
@@ -2459,10 +2461,10 @@ msgid "OK, guide me through the upgrade process"
 msgstr "OK, guida mig genom uppgraderingen"
 
 msgid "OK, remove another extensions"
-msgstr ""
+msgstr "OK, ta bort ytterligare tillägg"
 
 msgid "OK, remove some extensions"
-msgstr ""
+msgstr "OK, radera några tillägg"
 
 msgid "OSD Settings"
 msgstr "Menyinställningar"
@@ -2486,7 +2488,7 @@ msgid "Only Free scan"
 msgstr "Endast okrypterade kanaler"
 
 msgid "Optionally enter your name if you want to."
-msgstr ""
+msgstr "Skriv in ditt namn (krävs ej)."
 
 msgid "Orbital Position"
 msgstr "Satellitposition"
@@ -2504,10 +2506,10 @@ msgid "Package list update"
 msgstr "Uppdaterar listan med programpaket"
 
 msgid "Package removal failed.\n"
-msgstr ""
+msgstr "Borttagning av programpaket misslyckades.\n"
 
 msgid "Package removed successfully.\n"
-msgstr ""
+msgstr "Programpaketet togs bort.\n"
 
 msgid "Packet management"
 msgstr "Hantera programpaket..."
@@ -2633,10 +2635,10 @@ msgid "Please enter the old pin code"
 msgstr "Vänligen ange den gamla PIN-koden"
 
 msgid "Please enter your email address here:"
-msgstr ""
+msgstr "Vänligen skriv in din emailadress här:"
 
 msgid "Please enter your name here (optional):"
-msgstr ""
+msgstr "Vänligen skriv in ditt namn här (krävs ej):"
 
 msgid "Please follow the instructions on the TV"
 msgstr "Vänligen följ instruktionerna på TVn"
@@ -2670,10 +2672,10 @@ msgid "Please select a subservice..."
 msgstr "Vänligen välj en underkanal..."
 
 msgid "Please select an extension to remove."
-msgstr ""
+msgstr "Vänligen välj ett tillägg att ta bort."
 
 msgid "Please select an option below."
-msgstr ""
+msgstr "Vänligen välj ett av alternativen nedan."
 
 msgid "Please select medium to use as backup location"
 msgstr "Vänligen välj enhet som ska användas som plats för säkerhetskopior"
@@ -2717,13 +2719,13 @@ msgid "Please wait for activation of your network configuration..."
 msgstr "Vänligen vänta för aktivering av din nätverkskonfiguration..."
 
 msgid "Please wait while removing selected package..."
-msgstr ""
+msgstr "Vänligen vänta medans valt programpaket tas bort..."
 
 msgid "Please wait while scanning is in progress..."
 msgstr "Vänligen vänta under tiden kanalsökningen pågår..."
 
 msgid "Please wait while searching for removable packages..."
-msgstr ""
+msgstr "Söker efter programpaket som kan tas bort, var god vänta..."
 
 msgid "Please wait while we configure your network..."
 msgstr "Vänligen vänta under tiden nätverket konfigureras..."
@@ -2807,7 +2809,7 @@ msgid "Press OK on your remote control to continue."
 msgstr "Tryck OK på din fjärrkontroll för att fortsätta."
 
 msgid "Press OK to activate the selected skin."
-msgstr ""
+msgstr "Tryck OK för att aktivera det valda temat."
 
 msgid "Press OK to activate the settings."
 msgstr "Tryck OK för aktivera inställningarna."
@@ -2823,22 +2825,22 @@ msgid "Press OK to scan"
 msgstr "Tryck OK för att starta kanalsökningen"
 
 msgid "Press OK to select a Provider."
-msgstr ""
+msgstr "Tryck OK för att välja en leverantör."
 
 msgid "Press OK to select/deselect a CAId."
-msgstr ""
+msgstr "Tryck OK för att välja eller välja bort ett CAId."
 
 msgid "Press OK to start the scan"
 msgstr "Tryck OK för att starta sökning"
 
 msgid "Press OK to toggle the selection."
-msgstr ""
+msgstr "Tryck OK för att växla mellan valmöjligheterna."
 
 msgid "Press OK to view full changelog"
-msgstr ""
+msgstr "Tryck OK för att se fullständig lista med förändringar."
 
 msgid "Press yellow to set this interface as default interface."
-msgstr ""
+msgstr "Tryck GUL för att välja det här interfacet som standardinterface."
 
 msgid "Prev"
 msgstr "Föregående"
@@ -2977,7 +2979,7 @@ msgid "Remove currently selected title"
 msgstr "Ta bort vald titel"
 
 msgid "Remove failed."
-msgstr ""
+msgstr "Borttagning misslyckades."
 
 msgid "Remove finished."
 msgstr "Ta bort färdiga."
@@ -2998,10 +3000,10 @@ msgid "Remove title"
 msgstr "Ta bort titel"
 
 msgid "Removed successfully."
-msgstr ""
+msgstr "Radering slutförd."
 
 msgid "Removeing"
-msgstr ""
+msgstr "Raderar"
 
 msgid "Removing"
 msgstr "Tar bort"
@@ -3035,10 +3037,10 @@ msgid "Reset and renumerate title names"
 msgstr "Återställ och numrera om titelnamnen"
 
 msgid "Reset video enhancement settings to system defaults?"
-msgstr ""
+msgstr "Återställ bildjusteringar till standardvärdena?"
 
 msgid "Reset video enhancement settings to your last configuration?"
-msgstr ""
+msgstr "Återställ bildjusteringar till föregående konfiguration?"
 
 msgid "Resolution"
 msgstr "Upplösning"
@@ -3160,7 +3162,7 @@ msgid "Satteliteequipment"
 msgstr "Satellitutrustning"
 
 msgid "Saturation"
-msgstr ""
+msgstr "Färgmättnad"
 
 msgid "Saturday"
 msgstr "Lördag"
@@ -3172,7 +3174,7 @@ msgid "Save Playlist"
 msgstr "Spara spellista"
 
 msgid "Scaler sharpness"
-msgstr ""
+msgstr "Skärpa vid uppskalning"
 
 msgid "Scaling Mode"
 msgstr "Skalningsläge"
@@ -3256,7 +3258,8 @@ msgstr ""
 msgid ""
 "Scan your network for wireless Access Points and connect to them using your "
 "selected wireless device.\n"
-msgstr ""
+msgstr "Sök efter trådlösa åtkomstpunkter och anslut till dem med hjälp av "
+"det valda trådlösa nätverkskortet.\n"
 
 msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
@@ -3317,7 +3320,7 @@ msgid "Select image"
 msgstr "Välj image"
 
 msgid "Select package"
-msgstr ""
+msgstr "Välj paket"
 
 msgid "Select provider to add..."
 msgstr "Välj leverantör att lägga till..."
@@ -3329,7 +3332,7 @@ msgid "Select service to add..."
 msgstr "Välj kanal att lägga till..."
 
 msgid "Select upgrade source to edit."
-msgstr ""
+msgstr "Välj uppgraderingskälla att redigera."
 
 msgid "Select video input"
 msgstr "Välj videoinsignal"
@@ -3410,7 +3413,7 @@ msgid "Set as default Interface"
 msgstr "Använd som standardkort"
 
 msgid "Set available internal memory threshold for the warning."
-msgstr ""
+msgstr "Ställ in varningsnivå för internt minne."
 
 msgid "Set interface as default Interface"
 msgstr "Använd kort som standardkort"
@@ -3428,7 +3431,7 @@ msgid "Setup Mode"
 msgstr "Nivå på systeminställningar:"
 
 msgid "Sharpness"
-msgstr ""
+msgstr "Skärpa"
 
 msgid "Show Info"
 msgstr "Visa info"
@@ -3497,7 +3500,7 @@ msgid "Singlestep (GOP)"
 msgstr "Enkelsteg (GOP)"
 
 msgid "Skin"
-msgstr ""
+msgstr "Tema"
 
 msgid "Skin..."
 msgstr "Tema..."
@@ -3606,7 +3609,7 @@ msgid "Spanish"
 msgstr "Spanska"
 
 msgid "Split preview mode"
-msgstr ""
+msgstr "Delad förhandsvisning"
 
 msgid "Standby"
 msgstr "Försätt i viloläge"
@@ -3833,7 +3836,7 @@ msgid "The package doesn't contain anything."
 msgstr "Programpaketet innehåller ingenting."
 
 msgid "The package:"
-msgstr ""
+msgstr "Programpaketet:"
 
 #, python-format
 msgid "The path %s already exists."
@@ -3886,10 +3889,10 @@ msgid "There are no default settings in your image."
 msgstr "Det finns inga standardinställningar i din image."
 
 msgid "There are now "
-msgstr ""
+msgstr "Det är nu "
 
 msgid "There is nothing to be done."
-msgstr ""
+msgstr "Det finns inget att göra."
 
 msgid ""
 "There might not be enough Space on the selected Partition.\n"
@@ -3903,7 +3906,7 @@ msgid "There was an error downloading the packetlist. Please try again."
 msgstr "Ett fel uppstod vid nedladdningen av programpaketlistan. Vänligen prova igen."
 
 msgid "There was an error. The package:"
-msgstr ""
+msgstr "Ett fel uppstod. Programpaketet:"
 
 #, python-format
 msgid "This .NFI file does not contain a valid %s image!"
@@ -4271,7 +4274,7 @@ msgid "Upgrade finished. Do you want to reboot your Dreambox?"
 msgstr "Uppgradering klar. Vill du starta om Dreamboxen?"
 
 msgid "Upgradeing"
-msgstr ""
+msgstr "Uppgraderar"
 
 msgid "Upgrading"
 msgstr "Uppgradering"
@@ -4332,7 +4335,7 @@ msgstr ""
 "Använd upp/ner pilarna på din fjärrkontroll för att välja ett alternativ. Tryck sedan OK."
 
 msgid "Use this video enhancement settings?"
-msgstr ""
+msgstr "Använd dessa bildjusteringar?"
 
 msgid "Use usals for this sat"
 msgstr "Använd USALS för denna sat"
@@ -4374,13 +4377,13 @@ msgid "Video Wizard"
 msgstr "Bildinställningsguide"
 
 msgid "Video enhancement preview"
-msgstr ""
+msgstr "Förhandsvisning av bildjusteringar"
 
 msgid "Video enhancement settings"
-msgstr ""
+msgstr "Bildjusteringar"
 
 msgid "Video enhancement setup"
-msgstr ""
+msgstr "Inställning av bildjusteringar"
 
 msgid ""
 "Video input selection\n"
@@ -4401,10 +4404,10 @@ msgid "Video mode selection."
 msgstr "Typ av bildutsignal."
 
 msgid "VideoSetup"
-msgstr ""
+msgstr "Videoinställningar"
 
 msgid "Videoenhancement Setup"
-msgstr ""
+msgstr "Inställning av bildjusteringar"
 
 msgid "View Movies..."
 msgstr "Visa Filmer..."
@@ -4495,7 +4498,7 @@ msgid "Waiting"
 msgstr "Väntar"
 
 msgid "Warn if free space drops below (kB):"
-msgstr ""
+msgstr "Varna om ledigt utrymme sjunker under (kB):"
 
 msgid ""
 "We will now test if your TV can also display this resolution at 50hz. If "
@@ -4804,7 +4807,7 @@ msgstr ""
 "försök igen."
 
 msgid "Your email address:"
-msgstr ""
+msgstr "Din emailadress:"
 
 msgid ""
 "Your frontprocessor firmware must be upgraded.\n"
@@ -4814,7 +4817,7 @@ msgstr ""
 "Tryck OK för att starta."
 
 msgid "Your name (optional):"
-msgstr ""
+msgstr "Ditt namn (krävs ej):"
 
 msgid "Your network configuration has been activated."
 msgstr "Din nätverkskonfiguration har aktiverats."
@@ -4941,13 +4944,13 @@ msgid "assigned CAIds"
 msgstr "tilldelade CA-id:n"
 
 msgid "assigned CAIds:"
-msgstr ""
+msgstr "tilldelade CA-id:n:"
 
 msgid "assigned Services/Provider"
 msgstr "tilldelade kanaler/leverantörer"
 
 msgid "assigned Services/Provider:"
-msgstr ""
+msgstr "tilldelade kanaler/leverantörer:"
 
 #, python-format
 msgid "audio track (%s) format"
@@ -4964,7 +4967,7 @@ msgid "auto"
 msgstr "auto"
 
 msgid "available"
-msgstr ""
+msgstr "tillgängliga"
 
 msgid "back"
 msgstr "tillbaka"
@@ -5031,7 +5034,7 @@ msgid "copy to bouquets"
 msgstr "kopiera till favoritlista"
 
 msgid "could not be removed"
-msgstr ""
+msgstr "kunde inte raderas"
 
 msgid "create directory"
 msgstr "skapa mapp"
@@ -5348,7 +5351,7 @@ msgid "no HDD found"
 msgstr "ingen hårddisk hittad"
 
 msgid "no Services/Providers selected"
-msgstr ""
+msgstr "inga tjänster/leverantörer valda"
 
 msgid "no module found"
 msgstr "ingen modul hittad"
@@ -5718,7 +5721,7 @@ msgid "waiting"
 msgstr "väntar"
 
 msgid "was removed successfully"
-msgstr ""
+msgstr "raderades"
 
 msgid "weekly"
 msgstr "veckovis"
