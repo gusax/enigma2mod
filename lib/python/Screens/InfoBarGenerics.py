@@ -1299,6 +1299,7 @@ class InfoBarExtensions:
 		self["InstantExtensionsActions"] = HelpableActionMap(self, "InfobarExtensions",
 			{
 				"extensions": (self.showExtensionSelection, _("view extensions...")),
+				"gmepg": (self.openGMEPG, _("show Graphical Multi EPG..."))
 			}, 1) # lower priority
 
 	def addExtension(self, extension, key = None, type = EXTENSION_SINGLE):
@@ -1351,6 +1352,11 @@ class InfoBarExtensions:
 
 		keys += [""] * len(extensionsList)
 		self.session.openWithCallback(self.extensionCallback, ChoiceBox, title=_("Please choose an extension..."), list = list, keys = keys, skin_name = "ExtensionsList")
+
+	def openGMEPG(self):
+		self.updateExtensions()
+		extensionsList = self.extensionsList[:]
+		self.extensionCallback([extensionsList[2][0](), extensionsList[2]])
 
 	def extensionCallback(self, answer):
 		if answer is not None:
