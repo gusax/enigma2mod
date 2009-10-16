@@ -771,6 +771,12 @@ int eDVBTSTools::findNextPicture(off_t &offset, size_t &len, int &distance, int 
 			len = new_len;
 			nr_frames += abs(dir) + distance; // never jump forward during rewind
 		}
+		else if (first) {
+			first = 0;
+			offset = new_offset;
+			len = new_len;
+			nr_frames += abs(dir) + distance; // never jump forward during rewind
+		}
 	}
 
 	distance = (direction < 0) ? -nr_frames : nr_frames;
