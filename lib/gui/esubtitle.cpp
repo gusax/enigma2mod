@@ -148,6 +148,7 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 		} else if (m_page_ok)
 		{
 			int elements = m_page.m_elements.size();
+			bool didMove = false;
 			painter.setFont(subtitleStyles[Subtitle_TTX].font);
 			for (int i=0; i<elements; ++i)
 			{
@@ -155,13 +156,39 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 				eRect &area = element.m_area;
 				eRect shadow = area;
 				shadow.moveBy(subtitleStyles[Subtitle_TTX].shadow_offset);
-				painter.setForegroundColor(subtitleStyles[Subtitle_TTX].shadow_color);
-				painter.renderText(shadow, element.m_text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
-				if ( !subtitleStyles[Subtitle_TTX].have_foreground_color )
-					painter.setForegroundColor(element.m_color);
-				else
-					painter.setForegroundColor(subtitleStyles[Subtitle_TTX].foreground_color);
-				painter.renderText(area, element.m_text, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+
+				if (!element.m_line1.empty()) // Subtitle line 1
+				{
+					painter.setForegroundColor(subtitleStyles[Subtitle_TTX].shadow_color);
+					painter.renderText(shadow, element.m_line1, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+					if (!subtitleStyles[Subtitle_TTX].have_foreground_color )
+						painter.setForegroundColor(element.m_color);
+					else
+						painter.setForegroundColor(subtitleStyles[Subtitle_TTX].foreground_color);
+					painter.renderText(area, element.m_line1, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+					area.moveBy(0, subtitleStyles[Subtitle_TTX].line_height); // Prepare for next line by moving area one line down
+					shadow.moveBy(0, subtitleStyles[Subtitle_TTX].line_height); // Prepare for next line by moving shadow one line down
+					didMove = true;
+				}
+
+				if (!element.m_line2.empty()) // Subtitle line 2
+				{
+					painter.setForegroundColor(subtitleStyles[Subtitle_TTX].shadow_color);
+					painter.renderText(shadow, element.m_line2, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+					if (!subtitleStyles[Subtitle_TTX].have_foreground_color )
+						painter.setForegroundColor(element.m_color);
+					else
+						painter.setForegroundColor(subtitleStyles[Subtitle_TTX].foreground_color);
+					painter.renderText(area, element.m_line2, gPainter::RT_WRAP|gPainter::RT_VALIGN_CENTER|gPainter::RT_HALIGN_CENTER);
+				}
+
+				if (didMove)
+				{
+					// Must move area and shadow back, otherwise text will jump one line down if showing and hiding infobar before the next subtitle page arrives
+					shadow.moveBy(0, -1*subtitleStyles[Subtitle_TTX].line_height);
+					area.moveBy(0, -1*subtitleStyles[Subtitle_TTX].line_height);
+					didMove = false;
+				}
 			}
 		}
 		else if (m_pango_page_ok)
@@ -220,12 +247,13 @@ int eSubtitleWidget::event(int event, void *data, void *data2)
 	}
 }
 
-void eSubtitleWidget::setFontStyle(subfont_t face, gFont *font, int haveColor, const gRGB &col, const gRGB &shadowCol, const ePoint &shadowOffset)
+void eSubtitleWidget::setFontStyle(subfont_t face, gFont *font, int haveColor, const gRGB &col, const gRGB &shadowCol, const ePoint &shadowOffset, int lineHeight)
 {
 	subtitleStyles[face].font = font;
 	subtitleStyles[face].have_foreground_color = haveColor;
 	subtitleStyles[face].foreground_color = col;
 	subtitleStyles[face].shadow_color = shadowCol;
 	subtitleStyles[face].shadow_offset = shadowOffset;
+	subtitleStyles[face].line_height = lineHeight;
 }
 

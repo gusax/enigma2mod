@@ -48,13 +48,13 @@ public:
 	struct eSubtitleStyle
 	{
 		subfont_t face;
-		int have_foreground_color, have_shadow_color;
+		int have_foreground_color, have_shadow_color, line_height;
 		gRGB foreground_color, shadow_color;
 		ePoint shadow_offset;
 		ePtr<gFont> font;
 	};
 
-	static void setFontStyle(subfont_t face, gFont *font, int autoColor, const gRGB &col, const gRGB &shadowCol, const ePoint &shadowOffset);
+	static void setFontStyle(subfont_t face, gFont *font, int autoColor, const gRGB &col, const gRGB &shadowCol, const ePoint &shadowOffset, int lineHeight);
 
 protected:
 	int event(int event, void *data=0, void *data2=0);
