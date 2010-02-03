@@ -341,7 +341,12 @@ def loadSingleSkinData(desktop, skin, path_prefix):
 				shadowColor = gRGB(0)
 			shadowOffset = parsePosition(get_attr("shadowOffset"), scale)
 			face = eSubtitleWidget.__dict__[get_attr("name")]
-			eSubtitleWidget.setFontStyle(face, font, haveColor, foregroundColor, shadowColor, shadowOffset)
+			lineHeight = get_attr("lineHeight")
+			if lineHeight:
+				lineHeight = int(lineHeight)
+			else:
+				lineHeight = 0
+			eSubtitleWidget.setFontStyle(face, font, haveColor, foregroundColor, shadowColor, shadowOffset, lineHeight)
 
 	for windowstyle in skin.findall("windowstyle"):
 		style = eWindowStyleSkinned()
