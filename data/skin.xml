@@ -71,7 +71,7 @@
 	</fonts>
 	<!-- Subtitle effects -->
 	<subtitles>
-		<sub name="Subtitle_TTX" font="Regular;30" shadowColor="#40101010" shadowOffset="3,3" />
+		<sub name="Subtitle_TTX" font="Regular;30" shadowColor="#40101010" shadowOffset="3,3" lineHeight="36" />
 		<sub name="Subtitle_Regular" font="Regular;30" foregroundColor="#DCDCDC" shadowColor="#40101010" shadowOffset="3,3" />
 		<sub name="Subtitle_Bold" font="Replacement;30" foregroundColor="#DCDCDC" shadowColor="#40101010" shadowOffset="3,3" />
 		<sub name="Subtitle_Italic" font="Regular;30" foregroundColor="#DCAAAA" shadowColor="#40101010" shadowOffset="3,3" />
