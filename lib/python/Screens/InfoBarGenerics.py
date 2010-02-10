@@ -174,7 +174,7 @@ class NumberZap(Screen):
 		self.close(int(self["number"].getText()))
 
 	def keyNumberGlobal(self, number):
-		self.Timer.start(3000, True)		#reset timer
+		self.Timer.start(500, True)		#reset timer
 		self.field = self.field + str(number)
 		self["number"].setText(self.field)
 		if len(self.field) >= 4:
@@ -206,7 +206,7 @@ class NumberZap(Screen):
 
 		self.Timer = eTimer()
 		self.Timer.callback.append(self.keyOK)
-		self.Timer.start(3000, True)
+		self.Timer.start(500, True)
 
 class InfoBarNumberZap:
 	""" Handles an initial number for NumberZapping """
