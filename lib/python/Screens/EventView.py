@@ -140,8 +140,6 @@ class EventViewBase:
 		if short and short != text:
 			text += '\n\n' + short
 		if ext:
-			if text:
-				text += '\n\n'
 			text += ext
 
 		self.setTitle(event.getEventName())
