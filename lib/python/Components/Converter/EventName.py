@@ -27,9 +27,9 @@ class EventName(Converter, object):
 		if self.type == self.NAME:
 			return event.getEventName()
 		elif self.type == self.SHORT_DESCRIPTION:
-			return event.getShortDescription()
+			return ""
 		elif self.type == self.EXTENDED_DESCRIPTION:
-			return event.getExtendedDescription()
+			return event.getShortDescription() + "" + event.getExtendedDescription()
 		elif self.type == self.ID:
 			return str(event.getEventId())
 		
